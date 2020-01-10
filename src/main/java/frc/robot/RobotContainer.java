@@ -38,10 +38,10 @@ import java.util.Arrays;
 public class RobotContainer {
   // Drive Controller
   XboxController xbox = new XboxController(Constants.kControllerPort);
-
+ 
   // Position Selection
   public enum Start {
-    LEFT(), CENTER(), RIGHT();
+    LEFT, CENTER, RIGHT;
 
     Pose2d left = new Pose2d(-1, 0, Rotation2d.fromDegrees(0));
     Pose2d center = new Pose2d(0, 0, Rotation2d.fromDegrees(0));
