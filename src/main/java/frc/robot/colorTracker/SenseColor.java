@@ -20,20 +20,28 @@ public class SenseColor extends SubsystemBase {
    * Creates a new SenseColor.
    */
   private final I2C.Port i2cPort = I2C.Port.kOnboard;
-    private final ColorSensorV3 m_colorSensor = new ColorSensorV3(i2cPort);
-  
-    
-    
-  public SenseColor() {
-    
-  
+  private final ColorSensorV3 m_colorSensor = new ColorSensorV3(i2cPort);
+  private int proximity = m_colorSensor.getProximity();
+  private int IR = m_colorSensor.getIR();
+  private Color detectedColor = m_colorSensor.getColor();
+
+  public Color getColor() {
+    return detectedColor;
+  }
+
+  public int getRawColor() {
+    return IR;
+  }
+
+  public int getProximity() {
+    return proximity;
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    final Color detectedColor = m_colorSensor.getColor();
-    final double IR = m_colorSensor.getIR();
+    detectedColor = m_colorSensor.getColor();
+    IR = m_colorSensor.getIR();
   
     SmartDashboard.putNumber("Red", detectedColor.red);
   
@@ -43,10 +51,8 @@ public class SenseColor extends SubsystemBase {
   
     SmartDashboard.putNumber("IR", IR);
   
-    final int proximity = m_colorSensor.getProximity();
-  
-  
-  
+    proximity = m_colorSensor.getProximity();
+
     SmartDashboard.putNumber("Proximity", proximity);
   }
 }
