@@ -43,16 +43,20 @@ public class RobotContainer {
   public enum Start {
     LEFT(), CENTER(), RIGHT();
 
+    Pose2d left = new Pose2d(-1, 0, Rotation2d.fromDegrees(0));
+    Pose2d center = new Pose2d(0, 0, Rotation2d.fromDegrees(0));
+    Pose2d right = new Pose2d(1, 0, Rotation2d.fromDegrees(0));
+
     public Pose2d getPose() {
       switch(this) {
         case LEFT:
-          return new Pose2d(-1, 0, Rotation2d.fromDegrees(0));
+          return left;
         case CENTER:
-          return new Pose2d(0, 0, Rotation2d.fromDegrees(0));
+          return center;
         case RIGHT:
-          return new Pose2d(1, 0, Rotation2d.fromDegrees(0));
+          return right;
         default:
-          return new Pose2d(0, 0, Rotation2d.fromDegrees(0));
+          return center;
       }
     }
   }
@@ -70,8 +74,6 @@ public class RobotContainer {
 
   // Drive with Controller 
   Command ManualDrive = new RunCommand(() -> tdrive.tankDrive(xbox.getRawAxis(5), xbox.getRawAxis(1)));
-
-  // 
  
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -94,34 +96,6 @@ public class RobotContainer {
   private void configureButtonBindings() {
   }
 
-  /** 
-   * @param int accepts 1 through 3. 1 is left, 2, is center, 3 is right
-  */
-  public Pose2d startingPoseChooser() {
-    // all possible starting positions on field
-    var left = new Pose2d(-1, 0, Rotation2d.fromDegrees(0));
-    var center = new Pose2d();
-    var right = new Pose2d(1, 0, Rotation2d.fromDegrees(0));
-
-    // find driver selected position on field
-    var pose = choosePosition.getSelected().toString();
-
-    // set position on field
-    position = position.valueOf(pose);
-
-    switch(position) {
-      case LEFT:
-        return left;
-      case CENTER:
-        return center;
-      case RIGHT:
-        return right;
-      default:
-        return center;
-    }
-     
-  }
-
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
@@ -131,11 +105,13 @@ public class RobotContainer {
     TrajectoryConfig config = new TrajectoryConfig(
       MaxSafeVelocityMeters, MaxSafeAccelerationMeters);
     
+    Start startPose = (Start) choosePosition.getSelected();
+    
     Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
-      Arrays.asList(startingPoseChooser(), new Pose2d(1.0, 0, new Rotation2d()),
+      Arrays.asList(startPose.getPose(), new Pose2d(1.0, 0, new Rotation2d()),
         new Pose2d(2.3, 1.2, Rotation2d.fromDegrees(90.0))), config);
     
-    RamseteCommand base = new RamseteCommand(
+    RamseteCommand tbase = new RamseteCommand(
       trajectory, 
       tdrive::getPose, 
       new RamseteController(Ramsete.kb, Ramsete.kzeta), 
@@ -147,6 +123,18 @@ public class RobotContainer {
       tdrive::setOutputVolts, 
       tdrive);
 
-    return base.andThen(() -> tdrive.setOutputVolts(0, 0));
+      RamseteCommand rbase = new RamseteCommand(
+      trajectory, 
+      rdrive::getPose, 
+      new RamseteController(Ramsete.kb, Ramsete.kzeta), 
+      rdrive.getFeedforward(), 
+      rdrive.getKinematics(), 
+      rdrive::getSpeeds, 
+      rdrive.getLeftDrivePID(), 
+      rdrive.getRightDrivePID(), 
+      rdrive::setOutputVolts, 
+      rdrive);
+
+    return tbase.andThen(() -> tdrive.setOutputVolts(0, 0));
   }
 }
