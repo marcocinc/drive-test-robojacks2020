@@ -41,7 +41,20 @@ public class RobotContainer {
 
   // Position Selection
   public enum Start {
-    LEFT, CENTER, RIGHT;    
+    LEFT(), CENTER(), RIGHT();
+
+    public Pose2d getPose() {
+      switch(this) {
+        case LEFT:
+          return new Pose2d(-1, 0, Rotation2d.fromDegrees(0));
+        case CENTER:
+          return new Pose2d(0, 0, Rotation2d.fromDegrees(0));
+        case RIGHT:
+          return new Pose2d(1, 0, Rotation2d.fromDegrees(0));
+        default:
+          return new Pose2d(0, 0, Rotation2d.fromDegrees(0));
+      }
+    }
   }
 
   Start position = Start.CENTER;
