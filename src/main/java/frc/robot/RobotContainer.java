@@ -67,7 +67,7 @@ public class RobotContainer {
   
   // Drive Subsystem(s)
   private final TalonDrivetrain tdrive = new TalonDrivetrain();
-  private final RevDrivetrain rdrive = new RevDrivetrain();
+  //private final RevDrivetrain rdrive = new RevDrivetrain();
 
   // Limelight Subsystem
   private final Limelight limelight = new Limelight();
@@ -123,6 +123,7 @@ public class RobotContainer {
       tdrive::setOutputVolts, 
       tdrive);
 
+      /*
       RamseteCommand rbase = new RamseteCommand(
       trajectory, 
       rdrive::getPose, 
@@ -134,7 +135,7 @@ public class RobotContainer {
       rdrive.getRightDrivePID(), 
       rdrive::setOutputVolts, 
       rdrive);
-
+    */
     return tbase.andThen(() -> tdrive.setOutputVolts(0, 0));
   }
 }

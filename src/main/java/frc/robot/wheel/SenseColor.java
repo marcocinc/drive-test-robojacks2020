@@ -15,6 +15,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color; 
 
+import com.revrobotics.ColorMatchResult;
+import com.revrobotics.ColorMatch;
 public class SenseColor extends SubsystemBase {
   /**
    * Creates a new SenseColor.
@@ -24,6 +26,12 @@ public class SenseColor extends SubsystemBase {
   private int proximity = m_colorSensor.getProximity();
   private int IR = m_colorSensor.getIR();
   private Color detectedColor = m_colorSensor.getColor();
+  private final ColorMatch m_colorMatcher = new ColorMatch();
+
+  private final Color kBlueTarget = ColorMatch.makeColor(0.143, 0.427, 0.429);
+  private final Color kGreenTarget = ColorMatch.makeColor(0.197, 0.561, 0.240);
+  private final Color kRedTarget = ColorMatch.makeColor(0.561, 0.232, 0.114);
+  private final Color kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113);
 
   public Color getColor() {
     return detectedColor;
@@ -41,6 +49,26 @@ public class SenseColor extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     detectedColor = m_colorSensor.getColor();
+    
+    Color detectedColor = m_colorSensor.getColor();
+    
+    String colorString;
+    ColorMatchResult match = m_colorMatcher.matchClosestColor(detectedColor);
+
+    if (match.color == kBlueTarget) {
+      colorString = "Blue";
+    } else if (match.color == kRedTarget) {
+      colorString = "Red";
+    } else if (match.color == kGreenTarget) {
+      colorString = "Green";
+    } else if (match.color == kYellowTarget) {
+      colorString = "Yellow";
+    } else {
+      colorString = "Unknown";
+    }
+
+
+    
     IR = m_colorSensor.getIR();
   
     SmartDashboard.putNumber("Red", detectedColor.red);
@@ -54,5 +82,7 @@ public class SenseColor extends SubsystemBase {
     proximity = m_colorSensor.getProximity();
 
     SmartDashboard.putNumber("Proximity", proximity);
+
+    SmartDashboard.putString("Detected Color", colorString);
   }
 }
