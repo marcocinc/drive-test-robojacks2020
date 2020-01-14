@@ -50,26 +50,27 @@ public class SenseColor extends SubsystemBase {
 
   public String getColorString() {
     
-    if (match.color == kBlueTarget) {
-      return  colorString = "B";
+    if (getRawColor()< 9 && getRawColor() > 7) {
+      return  colorString = "Blue";
     } else if (match.color == kRedTarget) {
-      return colorString = "R";
+      return colorString = "Red";
     } else if (match.color == kGreenTarget) {
-      return colorString = "G";
+      return colorString = "Green";
     } else if (match.color == kYellowTarget) {
-      return colorString = "Y";
+      return colorString = "Yellow";
     } else {
       return colorString = "Error: Unknown";
     }
   }
+
+  
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
     detectedColor = m_colorSensor.getColor();
     IR = m_colorSensor.getIR();
-    match = m_colorMatcher.matchClosestColor(detectedColor);
     proximity = m_colorSensor.getProximity();
-
+    match = m_colorMatcher.matchClosestColor(detectedColor);
   }
 }
