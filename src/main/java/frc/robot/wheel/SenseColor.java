@@ -68,13 +68,14 @@ public class SenseColor extends SubsystemBase {
     }
   }
 
+  
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
     detectedColor = m_colorSensor.getColor();
     IR = m_colorSensor.getIR();
-    match = m_colorMatcher.matchClosestColor(detectedColor);
     proximity = m_colorSensor.getProximity();
-
+    match = m_colorMatcher.matchClosestColor(detectedColor);
   }
 }

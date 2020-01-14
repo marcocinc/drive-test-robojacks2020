@@ -100,6 +100,12 @@ public class RobotContainer {
   private void configureButtonBindings() {
   }
 
+  public void periodic() {
+    SmartDashboard.putNumber("Raw Color Value", colorSense.getRawColor());
+    SmartDashboard.putNumber("Proximity", colorSense.getProximity());
+    SmartDashboard.putString("Detected Color", colorSense.getColorString());
+  }
+
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
@@ -132,7 +138,7 @@ public class RobotContainer {
       trajectory, 
       rdrive::getPose, 
       new RamseteController(Ramsete.kb, Ramsete.kzeta), 
-      rdrive.getFeedforward(), 
+       rdrive.getFeedforward(), 
       rdrive.getKinematics(), 
       rdrive::getSpeeds, 
       rdrive.getLeftDrivePID(), 
