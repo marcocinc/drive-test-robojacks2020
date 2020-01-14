@@ -8,7 +8,6 @@
 package frc.robot.wheel;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import static frc.robot.Constants.*;
 import edu.wpi.first.wpilibj.I2C;
 import com.revrobotics.ColorSensorV3;
 
@@ -50,19 +49,15 @@ public class SenseColor extends SubsystemBase {
   }
 
   public String getColorString() {
-
-    if (getRawColor() < blueLowerBound && getRawColor() > blueUpperBound) {
-      return  colorString = "B";
-
-    } else if (getRawColor() < redLowerBound && getRawColor() > redUpperBound) {
-      return colorString = "R";
-
-    } else if (getRawColor() < greenLowerBound && getRawColor() > greenUpperBound) {
-      return colorString = "G";
-
-    } else if (getRawColor() < yellowLowerBound && getRawColor() > yellowUpperBound) {
-      return colorString = "Y";
-      
+    
+    if (getRawColor()< 9 && getRawColor() > 7) {
+      return  colorString = "Blue";
+    } else if (match.color == kRedTarget) {
+      return colorString = "Red";
+    } else if (match.color == kGreenTarget) {
+      return colorString = "Green";
+    } else if (match.color == kYellowTarget) {
+      return colorString = "Yellow";
     } else {
       return colorString = "Error: Unknown";
     }
