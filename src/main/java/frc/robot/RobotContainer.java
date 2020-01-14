@@ -89,9 +89,6 @@ public class RobotContainer {
     choosePosition.addOption("Right", Start.LEFT);
     SmartDashboard.putData("Starting Position", choosePosition);
 
-    SmartDashboard.putNumber("Raw Color Value", colorSense.getRawColor());
-    SmartDashboard.putNumber("Proximity", colorSense.getProximity());
-    SmartDashboard.putString("Detected Color", colorSense.getColorString());
   }
 
   /**

@@ -46,7 +46,20 @@ public final class Constants {
 	public static final double MaxSafeVelocityMeters = Units.feetToMeters(2);
 	public static final double MaxSafeAccelerationMeters = Units.feetToMeters(2);
 	public static final double targetToCameraHeight = 5;
-	public static final double cameraAngle = 0;
+  public static final double cameraAngle = 0;
+  
+  // Color Value Bounds
+	public static final int blueLowerBound = 7;
+  public static final int blueUpperBound = 9;
+
+  public static final int redLowerBound = 7;
+  public static final int redUpperBound = 9;
+
+  public static final int greenLowerBound = 7;
+  public static final int greenUpperBound = 9;
+
+  public static final int yellowLowerBound = 7;
+	public static final int yellowUpperBound = 9;
   
   public static class DriveFeedforward {
     public static final double ks = 0;
