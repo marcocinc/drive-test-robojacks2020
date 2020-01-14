@@ -8,6 +8,7 @@
 package frc.robot.wheel;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import jdk.nashorn.internal.ir.ReturnNode;
 import edu.wpi.first.wpilibj.I2C;
 import com.revrobotics.ColorSensorV3;
 
@@ -32,7 +33,9 @@ public class SenseColor extends SubsystemBase {
   private final Color kGreenTarget = ColorMatch.makeColor(0.197, 0.561, 0.240);
   private final Color kRedTarget = ColorMatch.makeColor(0.561, 0.232, 0.114);
   private final Color kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113);
-
+ 
+  public String colorString;
+  public ColorMatchResult match = m_colorMatcher.matchClosestColor(detectedColor);
   public Color getColor() {
     return detectedColor;
   }
@@ -45,27 +48,32 @@ public class SenseColor extends SubsystemBase {
     return proximity;
   }
 
+  public String getColorString() {
+
+    if (match.color == kBlueTarget) {
+      return  colorString = "B";
+    } else if (match.color == kRedTarget) {
+      return colorString = "R";
+    } else if (match.color == kGreenTarget) {
+      return colorString = "G";
+    } else if (match.color == kYellowTarget) {
+      return colorString = "Y";
+    } else {
+      return colorString = "Error: Unknown";
+    }
+  }
+
+
+
+  
+
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
     detectedColor = m_colorSensor.getColor();
     
     Color detectedColor = m_colorSensor.getColor();
-    
-    String colorString;
-    ColorMatchResult match = m_colorMatcher.matchClosestColor(detectedColor);
-
-    if (match.color == kBlueTarget) {
-      colorString = "B";
-    } else if (match.color == kRedTarget) {
-      colorString = "R";
-    } else if (match.color == kGreenTarget) {
-      colorString = "G";
-    } else if (match.color == kYellowTarget) {
-      colorString = "Y";
-    } else {
-      colorString = "Error: Unknown";
-    }
     
     IR = m_colorSensor.getIR();
   
