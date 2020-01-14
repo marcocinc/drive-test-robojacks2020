@@ -35,6 +35,7 @@ public class SenseColor extends SubsystemBase {
  
   public String colorString;
   public ColorMatchResult match = m_colorMatcher.matchClosestColor(detectedColor);
+
   public Color getColor() {
     return detectedColor;
   }
@@ -48,7 +49,7 @@ public class SenseColor extends SubsystemBase {
   }
 
   public String getColorString() {
-
+    
     if (match.color == kBlueTarget) {
       return  colorString = "B";
     } else if (match.color == kRedTarget) {
@@ -62,32 +63,13 @@ public class SenseColor extends SubsystemBase {
     }
   }
 
-
-
-  
-
-
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
     detectedColor = m_colorSensor.getColor();
-    
-    Color detectedColor = m_colorSensor.getColor();
-    
     IR = m_colorSensor.getIR();
-  
-    SmartDashboard.putNumber("Red", detectedColor.red);
-  
-    SmartDashboard.putNumber("Green", detectedColor.green);
-  
-    SmartDashboard.putNumber("Blue", detectedColor.blue);
-  
-    SmartDashboard.putNumber("IR", IR);
-  
+    match = m_colorMatcher.matchClosestColor(detectedColor);
     proximity = m_colorSensor.getProximity();
 
-    SmartDashboard.putNumber("Proximity", proximity);
-
-    SmartDashboard.putString("Detected Color", colorString);
   }
 }

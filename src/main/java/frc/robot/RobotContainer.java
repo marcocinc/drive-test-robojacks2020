@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
 import frc.robot.drive.TalonDrivetrain;
 import frc.robot.vision.Limelight;
+import frc.robot.wheel.SenseColor;
 import frc.robot.drive.RevDrivetrain;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
@@ -72,6 +73,8 @@ public class RobotContainer {
   // Limelight Subsystem
   private final Limelight limelight = new Limelight();
 
+  private final SenseColor colorSense = new SenseColor();
+
   // Drive with Controller 
   Command ManualDrive = new RunCommand(() -> tdrive.tankDrive(xbox.getRawAxis(5), xbox.getRawAxis(1)));
  
@@ -85,6 +88,10 @@ public class RobotContainer {
     choosePosition.addOption("Left", Start.LEFT);
     choosePosition.addOption("Right", Start.LEFT);
     SmartDashboard.putData("Starting Position", choosePosition);
+
+    SmartDashboard.putNumber("Raw Color Value", colorSense.getRawColor());
+    SmartDashboard.putNumber("Proximity", colorSense.getProximity());
+    SmartDashboard.putString("Detected Color", colorSense.getColorString());
   }
 
   /**
