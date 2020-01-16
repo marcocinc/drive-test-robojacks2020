@@ -58,8 +58,8 @@ public final class Constants {
   public static final int greenLowerBound = 7;
   public static final int greenUpperBound = 8;
 
-  public static final int yellowLowerBound = 10;
-	public static final int yellowUpperBound = 11;
+  public static final int yellowLowerBound = 11;
+	public static final int yellowUpperBound = 12;
   
   public static class DriveFeedforward {
     public static final double ks = 0;

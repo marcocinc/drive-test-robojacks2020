@@ -51,13 +51,13 @@ public class SenseColor extends SubsystemBase {
 
   public String getColorString() {
     
-    if (getRawColor() > blueLowerBound && getRawColor() < blueUpperBound) {
+    if (getRawColor() >= blueLowerBound && getRawColor() <= blueUpperBound) {
       return  colorString = "Blue";
-    } else if (getRawColor() > redLowerBound && getRawColor() < redUpperBound) {
+    } else if (getRawColor() >= redLowerBound && getRawColor() <= redUpperBound) {
       return colorString = "Red";
-    } else if (getRawColor() > greenLowerBound && getRawColor() < greenUpperBound) {
+    } else if (getRawColor() >= greenLowerBound && getRawColor() <= greenUpperBound) {
       return colorString = "Green";
-    } else if (getRawColor() > yellowLowerBound && getRawColor() < yellowUpperBound) {
+    } else if (getRawColor() >= yellowLowerBound && getRawColor() <= yellowUpperBound) {
       return colorString = "Yellow";
     } else {
       return colorString = "Error: Unknown";
