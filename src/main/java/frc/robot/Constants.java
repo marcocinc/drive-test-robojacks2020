@@ -52,17 +52,17 @@ public final class Constants {
   public static final double cameraAngle = 0;
   
   // Color Value Bounds
-	public static final int blueLowerBound = 12;
-  public static final int blueUpperBound = 13;
+	public static final double blueLowerBound = 106;
+  public static final double blueUpperBound = 118;
 
-  public static final int redLowerBound = 9;
-  public static final int redUpperBound = 10;
+  public static final double redLowerBound = 69;
+  public static final double redUpperBound = 79;
 
-  public static final int greenLowerBound = 7;
-  public static final int greenUpperBound = 8;
+  public static final double greenLowerBound = 46;
+  public static final double greenUpperBound = 60;
 
-  public static final int yellowLowerBound = 10;
-	public static final int yellowUpperBound = 11;
+  public static final double yellowLowerBound = 96;
+	public static final double yellowUpperBound = 105; 
   
   public static class DriveFeedforward {
     public static final double ks = 0;

@@ -8,6 +8,7 @@
 package frc.robot.wheel;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import static frc.robot.Constants.*;
 import edu.wpi.first.wpilibj.I2C;
 import com.revrobotics.ColorSensorV3;
 
@@ -24,7 +25,7 @@ public class SenseColor extends SubsystemBase {
   private final I2C.Port i2cPort = I2C.Port.kOnboard;
   private final ColorSensorV3 m_colorSensor = new ColorSensorV3(i2cPort);
   private int proximity = m_colorSensor.getProximity();
-  private int IR = m_colorSensor.getIR();
+  private double IR = m_colorSensor.getIR();
   private Color detectedColor = m_colorSensor.getColor();
   private final ColorMatch m_colorMatcher = new ColorMatch();
 
@@ -40,7 +41,7 @@ public class SenseColor extends SubsystemBase {
     return detectedColor;
   }
 
-  public int getRawColor() {
+  public double getRawColor() {
     return IR;
   }
 
@@ -50,13 +51,13 @@ public class SenseColor extends SubsystemBase {
 
   public String getColorString() {
     
-    if (getRawColor()< 9 && getRawColor() > 7) {
+    if (getRawColor() >= blueLowerBound && getRawColor() <= blueUpperBound) {
       return  colorString = "Blue";
-    } else if (match.color == kRedTarget) {
+    } else if (getRawColor() >= redLowerBound && getRawColor() <= redUpperBound) {
       return colorString = "Red";
-    } else if (match.color == kGreenTarget) {
+    } else if (getRawColor() >= greenLowerBound && getRawColor() <= greenUpperBound) {
       return colorString = "Green";
-    } else if (match.color == kYellowTarget) {
+    } else if (getRawColor() >= yellowLowerBound && getRawColor() <= yellowUpperBound) {
       return colorString = "Yellow";
     } else {
       return colorString = "Error: Unknown";
