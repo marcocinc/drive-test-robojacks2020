@@ -38,11 +38,10 @@ public class GoalMover extends SubsystemBase {
     }
     
   }
+
   /**
    * switch between a high shooting position and a low shooting position 
    */
-
-
   public void SwapHeight(){
     switch(state){
       case HIGH:
@@ -55,8 +54,6 @@ public class GoalMover extends SubsystemBase {
     }
   
   }
-
-
 
   public void CollectGoal(){
     
