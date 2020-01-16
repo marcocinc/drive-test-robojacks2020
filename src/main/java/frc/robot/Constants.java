@@ -27,6 +27,8 @@ public final class Constants {
 
   public static final int kControllerPort = 0;
 
+  public static final int kSpinnerPort = 7; 
+
   public static final int kLeftShooterWheelPort = 5;
 	public static final int kRightShooterWheelPort = 6;
     
@@ -52,8 +54,8 @@ public final class Constants {
 	public static final double blueLowerBound = 106;
   public static final double blueUpperBound = 118;
 
-  public static final double redLowerBound = 69;
-  public static final double redUpperBound = 79;
+  public static final double redLowerBound = 65;
+  public static final double redUpperBound = 81;
 
   public static final double greenLowerBound = 46;
   public static final double greenUpperBound = 60;
