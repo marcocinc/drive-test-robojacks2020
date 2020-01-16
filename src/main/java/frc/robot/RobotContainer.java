@@ -9,6 +9,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.controller.RamseteController;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
@@ -18,12 +19,14 @@ import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
 import frc.robot.drive.TalonDrivetrain;
+import frc.robot.turret.GoalMover;
 import frc.robot.vision.Limelight;
 import frc.robot.wheel.SenseColor;
 import frc.robot.drive.RevDrivetrain;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import static frc.robot.Constants.*;
 
@@ -75,6 +78,9 @@ public class RobotContainer {
 
   private final SenseColor colorSense = new SenseColor();
 
+  private final GoalMover goalMover = new GoalMover();
+
+
   // Drive with Controller 
   Command ManualDrive = new RunCommand(() -> tdrive.tankDrive(xbox.getRawAxis(5), xbox.getRawAxis(1)));
  
@@ -98,7 +104,15 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    new JoystickButton(xbox, Button.kB.value)
+    .whenPressed(() -> goalMover.SwapCollecting(), goalMover);
+
+    new JoystickButton(xbox, Button.kA.value)
+    .whenPressed(() -> goalMover.SwapHeight(), goalMover);
+   
   }
+
+
 
   public void periodic() {
     SmartDashboard.putNumber("Raw Color Value", colorSense.getRawColor());

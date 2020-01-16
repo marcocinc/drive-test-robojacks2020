@@ -27,8 +27,11 @@ public final class Constants {
 
   public static final int kControllerPort = 0;
 
+  public static int lowSolenoidPort = 0;
+  public static int highSolenoidPort = 1;
+
   public static final int kLeftShooterWheelPort = 5;
-	public static final int kRightShooterWheelPort = 6;
+  public static final int kRightShooterWheelPort = 6;
     
   // Motor Phase
   public static final boolean kLeftInverted = false;
@@ -83,5 +86,6 @@ public final class Constants {
     public static final double kb = 2;
     public static final double kzeta = 0.7;
   }
+
   
 }
