@@ -9,6 +9,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.controller.RamseteController;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
@@ -17,13 +18,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
-import frc.robot.drive.TalonDrivetrain;
+import frc.robot.turret.GoalMover;
 import frc.robot.vision.Limelight;
 import frc.robot.wheel.SenseColor;
 import frc.robot.drive.RevDrivetrain;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import static frc.robot.Constants.*;
 
@@ -66,17 +68,19 @@ public class RobotContainer {
 
   SendableChooser choosePosition = new SendableChooser<Start>();
   
-  // Drive Subsystem(s)
-  private final TalonDrivetrain tdrive = new TalonDrivetrain();
-  //private final RevDrivetrain rdrive = new RevDrivetrain();
+  // Drive Subsystem
+  private final RevDrivetrain rdrive = new RevDrivetrain();
 
   // Limelight Subsystem
   private final Limelight limelight = new Limelight();
 
   private final SenseColor colorSense = new SenseColor();
 
+  private final GoalMover goalMover = new GoalMover();
+
+
   // Drive with Controller 
-  Command ManualDrive = new RunCommand(() -> tdrive.tankDrive(xbox.getRawAxis(5), xbox.getRawAxis(1)));
+  Command ManualDrive = new RunCommand(() -> rdrive.tankDrive(xbox.getRawAxis(5), xbox.getRawAxis(1)));
  
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -98,7 +102,15 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    new JoystickButton(xbox, Button.kB.value)
+    .whenPressed(() -> goalMover.SwapCollecting(), goalMover);
+
+    new JoystickButton(xbox, Button.kA.value)
+    .whenPressed(() -> goalMover.SwapHeight(), goalMover);
+   
   }
+
+
 
   public void periodic() {
     SmartDashboard.putNumber("Raw Color Value", colorSense.getRawColor());
@@ -120,20 +132,7 @@ public class RobotContainer {
     Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
       Arrays.asList(startPose.getPose(), new Pose2d(1.0, 0, new Rotation2d()),
         new Pose2d(2.3, 1.2, Rotation2d.fromDegrees(90.0))), config);
-    
-    RamseteCommand tbase = new RamseteCommand(
-      trajectory, 
-      tdrive::getPose, 
-      new RamseteController(Ramsete.kb, Ramsete.kzeta), 
-      tdrive.getFeedforward(), 
-      tdrive.getKinematics(), 
-      tdrive::getSpeeds, 
-      tdrive.getLeftDrivePID(), 
-      tdrive.getRightDrivePID(), 
-      tdrive::setOutputVolts, 
-      tdrive);
-
-      /*
+      
       RamseteCommand rbase = new RamseteCommand(
       trajectory, 
       rdrive::getPose, 
@@ -145,7 +144,7 @@ public class RobotContainer {
       rdrive.getRightDrivePID(), 
       rdrive::setOutputVolts, 
       rdrive);
-    */
-    return tbase.andThen(() -> tdrive.setOutputVolts(0, 0));
+    
+    return rbase.andThen(() -> rdrive.setOutputVolts(0, 0));
   }
 }
