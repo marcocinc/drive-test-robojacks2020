@@ -20,11 +20,26 @@ import static frc.robot.Constants.*;
 
 public class Spinner extends SubsystemBase {
 
+private final SenseColor colorSense = new SenseColor();
+
   WPI_TalonSRX SpinnerMotor = new WPI_TalonSRX(kSpinnerPort);
+ 
+  private double counter = 0; 
 
   public Spinner() {
     
   }
+
+
+  public void Spin(){
+
+    if (i<20 && colorSense.getIsBlue()){
+
+      
+    }
+
+  }
+
 
   @Override
   public void periodic() {

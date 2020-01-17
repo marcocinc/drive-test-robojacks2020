@@ -37,6 +37,17 @@ public class SenseColor extends SubsystemBase {
   public String colorString;
   public ColorMatchResult match = m_colorMatcher.matchClosestColor(detectedColor);
 
+
+  boolean isBlue = getRawColor() >= blueLowerBound && getRawColor() <= blueUpperBound;
+  
+  public boolean getIsBlue(){
+    isBlue = getRawColor() >= blueLowerBound && getRawColor() <= blueUpperBound;
+    return isBlue; 
+  }
+
+
+
+
   public Color getColor() {
     return detectedColor;
   }
