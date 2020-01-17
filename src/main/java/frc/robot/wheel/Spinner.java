@@ -7,18 +7,27 @@
 
 package frc.robot.wheel;
 
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Spinner extends SubsystemBase {
-  /**
-   * Creates a new Spinner.
-   */
-  public Spinner() {
+import com.revrobotics.ColorMatchResult;
+import com.revrobotics.ColorMatch;
+import edu.wpi.first.wpilibj.util.Color;
+import com.revrobotics.ColorSensorV3;
+import edu.wpi.first.wpilibj.I2C;
 
+import static frc.robot.Constants.*;
+
+public class Spinner extends SubsystemBase {
+
+  WPI_TalonSRX SpinnerMotor = new WPI_TalonSRX(kSpinnerPort);
+
+  public Spinner() {
+    
   }
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+  
   }
 }
