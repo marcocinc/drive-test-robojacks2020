@@ -53,7 +53,7 @@ public final class Constants {
   public static final double cameraAngle = 0;
   
   // Color Value Bounds
-	public static final double blueLowerBound = 106;
+	public static final double blueLowerBound = 105;
   public static final double blueUpperBound = 118;
 
   public static final double redLowerBound = 65;
