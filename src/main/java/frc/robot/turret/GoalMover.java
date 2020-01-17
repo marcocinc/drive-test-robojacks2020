@@ -47,10 +47,8 @@ public class GoalMover extends SubsystemBase {
     switch(state){
       case HIGH:
         lowGoal();
-      case LOW:
-        highGoal();
       default:
-        lowGoal();
+        highGoal();
 
     }
   
