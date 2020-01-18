@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
-import frc.robot.turret.GoalMover;
+import frc.robot.turret.Turret;
 import frc.robot.vision.Limelight;
 import frc.robot.wheel.SenseColor;
 import frc.robot.drive.RevDrivetrain;
@@ -76,7 +76,7 @@ public class RobotContainer {
 
   private final SenseColor colorSense = new SenseColor();
 
-  private final GoalMover goalMover = new GoalMover();
+  private final Turret goalMover = new Turret();
 
 
   // Drive with Controller 
@@ -102,11 +102,8 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    new JoystickButton(xbox, Button.kB.value)
-    .whenPressed(() -> goalMover.SwapCollecting(), goalMover);
-
     new JoystickButton(xbox, Button.kA.value)
-    .whenPressed(() -> goalMover.SwapHeight(), goalMover);
+    .whenPressed(() -> goalMover.swapHeight(), goalMover);
    
   }
 
