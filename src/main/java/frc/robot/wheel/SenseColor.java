@@ -39,13 +39,39 @@ public class SenseColor extends SubsystemBase {
 
 
   boolean isBlue = getRawColor() >= blueLowerBound && getRawColor() <= blueUpperBound;
-  
+  boolean isRed = getRawColor() >= redLowerBound && getRawColor() <= redUpperBound; 
+  boolean isYellow = getRawColor() >= yellowLowerBound && getRawColor() <= yellowUpperBound; 
+  boolean isGreen = getRawColor() >= greenLowerBound && getRawColor() <= yellowUpperBound; 
+
   public boolean getIsBlue(){
     isBlue = getRawColor() >= blueLowerBound && getRawColor() <= blueUpperBound;
+
     return isBlue; 
   }
 
+ public boolean getIsRed(){
 
+  isRed = getRawColor() >= redLowerBound && getRawColor() <= redUpperBound; 
+
+  return isRed; 
+
+ }
+
+ public boolean getIsYellow(){
+
+  isYellow = getRawColor() >= yellowLowerBound && getRawColor() <= yellowUpperBound; 
+
+  return isYellow; 
+
+ }
+
+ public boolean getIsGreen(){
+
+  isGreen = getRawColor() >= greenLowerBound && getRawColor() <= yellowUpperBound; 
+
+  return isGreen; 
+
+ }
 
 
   public Color getColor() {
