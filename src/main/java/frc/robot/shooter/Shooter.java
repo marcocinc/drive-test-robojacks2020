@@ -7,27 +7,39 @@
 
 package frc.robot.shooter;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.revrobotics.CANPIDController;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.ControlType;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import static frc.robot.Constants.*;
 
 import static frc.robot.Constants.*;
 
 public class Shooter extends SubsystemBase {
-  private WPI_TalonSRX leftLauncher = new WPI_TalonSRX(kLeftShooterWheelPort);
-  private WPI_TalonSRX rightLauncher = new WPI_TalonSRX(kRightShooterWheelPort);
+  private CANSparkMax leftLauncher = new CANSparkMax(kLeftShooterWheelPort, MotorType.kBrushless);
+  private CANSparkMax rightLauncher = new CANSparkMax(kRightShooterWheelPort, MotorType.kBrushless);
+
+  private CANPIDController leftController = new CANPIDController(leftLauncher);
+  private CANPIDController rightController = new CANPIDController(rightLauncher);
 
   /**
    * Creates a new Shooter.
    */
   public Shooter() {
-    
+    leftController.setP(shooterLeftPID.Kp);
+    leftController.setI(shooterLeftPID.Ki);
+    leftController.setD(shooterLeftPID.Kd);    
+
+    rightController.setP(shooterRightPID.Kp);
+    rightController.setI(shooterRightPID.Ki);
+    rightController.setD(shooterRightPID.Kd);
   }
 
   public void setVelocity(double rpm) {
-    leftLauncher.set(ControlMode.Velocity, rpm);
-    rightLauncher.set(ControlMode.Velocity, -rpm);
+    leftController.setReference(rpm, ControlType.kVelocity);
+    rightController.setReference(-rpm, ControlType.kVelocity);
   }
 
   @Override

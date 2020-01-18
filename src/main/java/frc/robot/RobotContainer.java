@@ -21,7 +21,9 @@ import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
 import frc.robot.turret.Turret;
 import frc.robot.vision.Limelight;
 import frc.robot.wheel.SenseColor;
+import frc.robot.climber.Arm;
 import frc.robot.drive.RevDrivetrain;
+import frc.robot.shooter.Shooter;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -78,6 +80,9 @@ public class RobotContainer {
 
   private final Turret goalMover = new Turret();
 
+  private final Arm arm = new Arm();
+
+  private final Shooter shooter = new Shooter();
 
   // Drive with Controller 
   Command ManualDrive = new RunCommand(() -> rdrive.tankDrive(xbox.getRawAxis(5), xbox.getRawAxis(1)));
@@ -104,10 +109,20 @@ public class RobotContainer {
   private void configureButtonBindings() {
     new JoystickButton(xbox, Button.kA.value)
     .whenPressed(() -> goalMover.swapHeight(), goalMover);
+
+    new JoystickButton(xbox, Button.kB.value)
+    .whenPressed(() -> shooter.setVelocity(shooterRPM))
+    .whenReleased(() -> shooter.setVelocity(0));
+
+    new JoystickButton(xbox, Button.kBumperLeft.value)
+    .whenPressed(() -> arm.reach(), arm)
+    .whenReleased(()-> arm.stop(), arm);
+
+    new JoystickButton(xbox, Button.kBumperRight.value)
+    .whenPressed(() -> arm.pull(), arm)
+    .whenReleased(() -> arm.stop(), arm);
    
   }
-
-
 
   public void periodic() {
     SmartDashboard.putNumber("Raw Color Value", colorSense.getRawColor());
