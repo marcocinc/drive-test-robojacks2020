@@ -28,8 +28,11 @@ public final class Constants {
   public static final int kControllerPort = 0;
 
   public static final int kSpinnerPort = 7; 
-  public static int lowSolenoidPort = 0;
-  public static int highSolenoidPort = 1;
+
+  public static final int leftPistonPort = 0;
+	public static final int rightPistonPort = 1; 
+
+  public static final int armPort = 7;
 
   public static final int kLeftShooterWheelPort = 5;
   public static final int kRightShooterWheelPort = 6;
@@ -63,7 +66,10 @@ public final class Constants {
   public static final double greenUpperBound = 60;
 
   public static final double yellowLowerBound = 96;
-	public static final double yellowUpperBound = 105; 
+  public static final double yellowUpperBound = 105;
+  
+  //
+	public static final double armSpeed = 0.4;
   
   public static class DriveFeedforward {
     public static final double ks = 0;
