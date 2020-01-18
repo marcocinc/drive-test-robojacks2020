@@ -68,8 +68,10 @@ public final class Constants {
   public static final double yellowLowerBound = 96;
   public static final double yellowUpperBound = 105;
   
-  //
-	public static final double armSpeed = 0.4;
+  // Constant Speeds
+  public static final double armPercentSpeed = 0.4;
+  
+  public static final double shooterRPM = 10;
   
   public static class DriveFeedforward {
     public static final double ks = 0;
@@ -94,5 +96,16 @@ public final class Constants {
     public static final double kzeta = 0.7;
   }
 
+  public static class shooterLeftPID {
+    public static final double Kp = 0.1;
+    public static final double Ki = 0;
+    public static final double Kd = 0;
+  }
+
+  public static class shooterRightPID {
+    public static final double Kp = 0.1;
+    public static final double Ki = 0;
+    public static final double Kd = 0;
+  }
   
 }

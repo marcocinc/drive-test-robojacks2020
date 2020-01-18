@@ -19,11 +19,11 @@ public class Arm extends SubsystemBase {
   private WPI_TalonSRX arm = new WPI_TalonSRX(armPort);
 
   public void reach(){
-    arm.set(armSpeed);
+    arm.set(armPercentSpeed);
   }
 
   public void pull(){
-    arm.set(-armSpeed);
+    arm.set(-armPercentSpeed);
   }
 
   public void move(double speed) {
