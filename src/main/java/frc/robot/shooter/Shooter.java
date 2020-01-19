@@ -7,6 +7,7 @@
 
 package frc.robot.shooter;
 
+import com.revrobotics.CANEncoder;
 import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.ControlType;
@@ -23,6 +24,12 @@ public class Shooter extends SubsystemBase {
   private CANPIDController leftController = new CANPIDController(leftLauncher);
   private CANPIDController rightController = new CANPIDController(rightLauncher);
 
+  private CANEncoder leftEncoder = leftLauncher.getEncoder();
+  private CANEncoder rightEncoder = rightLauncher.getEncoder();
+
+  private double setpoint = 0;
+  private double error = 0;
+
   /**
    * Creates a new Shooter.
    */
@@ -36,9 +43,33 @@ public class Shooter extends SubsystemBase {
     rightController.setD(shooterRightPID.Kd);
   }
 
-  public void setVelocity(double rpm) {
+  public void setVelocity(double rpm, double allowedError) {
+    setpoint = rpm;
+    error = allowedError;
+
     leftController.setReference(rpm, ControlType.kVelocity);
     rightController.setReference(-rpm, ControlType.kVelocity);
+  }
+
+  /**
+   * Using both encoder velocities, this method will determine if the shooter is within an rpm
+   * range suitable to start firing balls
+   * @return If the speed is at the desired rpm range, true; otherwise, false.
+   */
+  public boolean inRange() {
+    boolean leftGreaterThanMin = leftEncoder.getVelocity() >= setpoint - error;
+    boolean leftLesserThanMax = leftEncoder.getVelocity() <= setpoint + error;
+
+    boolean rightGreaterThanMin = rightEncoder.getVelocity() >= -setpoint - error;
+    boolean rightLesserThanMax = rightEncoder.getVelocity() <= -setpoint + error;
+
+    if (leftGreaterThanMin && leftLesserThanMax && rightGreaterThanMin && rightLesserThanMax) {
+      return true;
+
+    } else {
+      return false;
+
+    }
   }
 
   @Override
