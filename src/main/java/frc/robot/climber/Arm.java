@@ -5,33 +5,34 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.climb;
+package frc.robot.climber;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.revrobotics.CANDigitalInput.LimitSwitch;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import static frc.robot.Constants.*;
 
 
 
 public class Arm extends SubsystemBase {
-  /**
-   * Creates a new Arm.
-   */
-  
-   WPI_TalonSRX motor = new WPI_TalonSRX(0);
-   
-   public Arm() {
-
-  }
+  private WPI_TalonSRX arm = new WPI_TalonSRX(armPort);
 
   public void reach(){
-  
-  motor.set(0.75);
-
-
+    arm.set(armPercentSpeed);
   }
 
+  public void pull(){
+    arm.set(-armPercentSpeed);
+  }
+
+  public void move(double speed) {
+    arm.set(speed);
+  }
+
+  public void stop() {
+    arm.set(0);
+  }
 
   @Override
   public void periodic() {

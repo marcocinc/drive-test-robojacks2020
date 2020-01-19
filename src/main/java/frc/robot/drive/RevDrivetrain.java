@@ -36,6 +36,7 @@ public class RevDrivetrain extends SubsystemBase {
 
   AHRS gyro = new AHRS(SPI.Port.kMXP);
 
+  // Autonomous Tracking
   DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(ktrackWidthMeters);
   DifferentialDriveOdometry odometry = new DifferentialDriveOdometry(getHeading());
 

@@ -22,27 +22,27 @@ public class Spinner extends SubsystemBase {
 
 private final SenseColor colorSense = new SenseColor();
 
-  WPI_TalonSRX SpinnerMotor = new WPI_TalonSRX(kSpinnerPort);
- 
-  private double counter = 0; 
+private WPI_TalonSRX spinner = new WPI_TalonSRX(kSpinnerPort);
 
-  public Spinner() {
+private double counter = 0; 
+
+public Spinner() {
+  
+}
+
+
+public void spin(){
+
+  for (int i = 0; i<20 && colorSense.getIsBlue(); i++){
+
     
   }
 
-
-  public void Spin(){
-
-    if (i<20 && colorSense.getIsBlue()){
-
-      
-    }
-
-  }
+}
 
 
-  @Override
-  public void periodic() {
-  
-  }
+@Override
+public void periodic() {
+
+}
 }

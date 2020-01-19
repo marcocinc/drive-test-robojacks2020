@@ -28,8 +28,11 @@ public final class Constants {
   public static final int kControllerPort = 0;
 
   public static final int kSpinnerPort = 7; 
-  public static int lowSolenoidPort = 0;
-  public static int highSolenoidPort = 1;
+
+  public static final int leftPistonPort = 0;
+	public static final int rightPistonPort = 1; 
+
+  public static final int armPort = 7;
 
   public static final int kLeftShooterWheelPort = 5;
   public static final int kRightShooterWheelPort = 6;
@@ -63,30 +66,50 @@ public final class Constants {
   public static final double greenUpperBound = 60;
 
   public static final double yellowLowerBound = 96;
-	public static final double yellowUpperBound = 105; 
+  public static final double yellowUpperBound = 105;
   
-  public static class DriveFeedforward {
-    public static final double ks = 0;
-    public static final double kv = 0;
-    public static final double ka = 0;
-  }
-    
+  // Constant Speeds
+  public static final double armPercentSpeed = 0.4;
+  
+  public static final double shooterRPM = 30;
+  public static final double shooterError = 20;
+  
+  // PID Constants
   public static class leftDrive {
-    public static final double Kp = 0.1;
+    public static double Kp = 0.1;
     public static final double Ki = 0;
     public static final double Kd = 0;
   }
 
   public static class rightDrive {
-    public static final double Kp = 0.1;
-    public static final double Ki = 0;
-    public static final double Kd = 0;
+    public static double Kp = 0.1;
+    public static double Ki = 0;
+    public static double Kd = 0;
   }
 
+  public static class shooterLeftPID {
+    public static double Kp = 0.1;
+    public static double Ki = 0;
+    public static double Kd = 0;
+  }
+
+  public static class shooterRightPID {
+    public static double Kp = 0.1;
+    public static double Ki = 0;
+    public static double Kd = 0;
+  }
+
+  // Ramsete controller constants
   public static class Ramsete {
     public static final double kb = 2;
     public static final double kzeta = 0.7;
   }
 
+  // Feed Forward Constants
+  public static class DriveFeedforward {
+    public static final double ks = 0;
+    public static final double kv = 0;
+    public static final double ka = 0;
+  }
   
 }

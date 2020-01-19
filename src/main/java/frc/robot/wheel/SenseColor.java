@@ -37,18 +37,24 @@ public class SenseColor extends SubsystemBase {
   public String colorString;
   public ColorMatchResult match = m_colorMatcher.matchClosestColor(detectedColor);
 
+<<<<<<< HEAD
 
   boolean isBlue = getRawColor() >= blueLowerBound && getRawColor() <= blueUpperBound;
   boolean isRed = getRawColor() >= redLowerBound && getRawColor() <= redUpperBound; 
   boolean isYellow = getRawColor() >= yellowLowerBound && getRawColor() <= yellowUpperBound; 
   boolean isGreen = getRawColor() >= greenLowerBound && getRawColor() <= yellowUpperBound; 
 
+=======
+  private boolean isBlue = getRawColor() >= blueLowerBound && getRawColor() <= blueUpperBound;
+  
+>>>>>>> 88be0edda08ac7bdd0f6a5ef79198d345573ff19
   public boolean getIsBlue(){
     isBlue = getRawColor() >= blueLowerBound && getRawColor() <= blueUpperBound;
 
     return isBlue; 
   }
 
+<<<<<<< HEAD
  public boolean getIsRed(){
 
   isRed = getRawColor() >= redLowerBound && getRawColor() <= redUpperBound; 
@@ -74,6 +80,8 @@ public class SenseColor extends SubsystemBase {
  }
 
 
+=======
+>>>>>>> 88be0edda08ac7bdd0f6a5ef79198d345573ff19
   public Color getColor() {
     return detectedColor;
   }
@@ -90,14 +98,19 @@ public class SenseColor extends SubsystemBase {
     
     if (getRawColor() >= blueLowerBound && getRawColor() <= blueUpperBound) {
       return  colorString = "Blue";
+
     } else if (getRawColor() >= redLowerBound && getRawColor() <= redUpperBound) {
       return colorString = "Red";
+
     } else if (getRawColor() >= greenLowerBound && getRawColor() <= greenUpperBound) {
       return colorString = "Green";
+
     } else if (getRawColor() >= yellowLowerBound && getRawColor() <= yellowUpperBound) {
       return colorString = "Yellow";
+
     } else {
       return colorString = "Error: Unknown";
+
     }
   }
 
