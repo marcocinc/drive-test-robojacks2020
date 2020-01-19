@@ -43,32 +43,6 @@ import java.util.Arrays;
 public class RobotContainer {
   // Drive Controller
   XboxController xbox = new XboxController(Constants.kControllerPort);
- 
-  // Position Selection
-  public enum Start {
-    LEFT, CENTER, RIGHT;
-
-    Pose2d left = new Pose2d(-1, 0, Rotation2d.fromDegrees(0));
-    Pose2d center = new Pose2d(0, 0, Rotation2d.fromDegrees(0));
-    Pose2d right = new Pose2d(1, 0, Rotation2d.fromDegrees(0));
-
-    public Pose2d getPose() {
-      switch(this) {
-        case LEFT:
-          return left;
-        case CENTER:
-          return center;
-        case RIGHT:
-          return right;
-        default:
-          return center;
-      }
-    }
-  }
-
-  Start position = Start.CENTER;
-
-  SendableChooser choosePosition = new SendableChooser<Start>();
   
   // Drive Subsystem
   private final RevDrivetrain rdrive = new RevDrivetrain();
@@ -93,10 +67,6 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
-    choosePosition.setDefaultOption("Center", Start.CENTER);
-    choosePosition.addOption("Left", Start.LEFT);
-    choosePosition.addOption("Right", Start.LEFT);
-    SmartDashboard.putData("Starting Position", choosePosition);
 
   }
 
@@ -111,8 +81,8 @@ public class RobotContainer {
     .whenPressed(() -> goalMover.swapHeight(), goalMover);
 
     new JoystickButton(xbox, Button.kB.value)
-    .whenPressed(() -> shooter.setVelocity(shooterRPM))
-    .whenReleased(() -> shooter.setVelocity(0));
+    .whenPressed(() -> shooter.setVelocity(shooterRPM, shooterError))
+    .whenReleased(() -> shooter.setVelocity(0, 0));
 
     new JoystickButton(xbox, Button.kBumperLeft.value)
     .whenPressed(() -> arm.reach(), arm)
@@ -139,10 +109,8 @@ public class RobotContainer {
     TrajectoryConfig config = new TrajectoryConfig(
       MaxSafeVelocityMeters, MaxSafeAccelerationMeters);
     
-    Start startPose = (Start) choosePosition.getSelected();
-    
     Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
-      Arrays.asList(startPose.getPose(), new Pose2d(1.0, 0, new Rotation2d()),
+      Arrays.asList(Chooser.getStartingPose(), new Pose2d(1.0, 0, new Rotation2d()),
         new Pose2d(2.3, 1.2, Rotation2d.fromDegrees(90.0))), config);
       
       RamseteCommand rbase = new RamseteCommand(
