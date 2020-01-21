@@ -12,8 +12,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import static frc.robot.Constants.*;
 
 public class Turret extends SubsystemBase {
-  Solenoid leftPiston = new Solenoid(leftPistonPort);
-  Solenoid rightPiston = new Solenoid(rightPistonPort);
+  Solenoid piston = new Solenoid(leftPistonPort);
 
   public enum ShooterState {
     COLLECTING, SHOOTING;
@@ -46,15 +45,13 @@ public class Turret extends SubsystemBase {
   public void collectGoal(){
     state = ShooterState.COLLECTING;
 
-    leftPiston.set(false);
-    rightPiston.set(false);
+    piston.set(false);
   }
 
   public void shootGoal(){
     state = ShooterState.SHOOTING;
     
-    leftPiston.set(true);
-    rightPiston.set(true);
+    piston.set(true);
   }
 
   @Override

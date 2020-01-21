@@ -10,6 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
+import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.RamseteController;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
@@ -25,6 +26,7 @@ import frc.robot.climber.Arm;
 import frc.robot.drive.RevDrivetrain;
 import frc.robot.shooter.Shooter;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.PIDCommand;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -59,7 +61,7 @@ public class RobotContainer {
   private final Shooter shooter = new Shooter();
 
   // Drive with Controller 
-  Command ManualDrive = new RunCommand(() -> rdrive.tankDrive(xbox.getRawAxis(5), xbox.getRawAxis(1)));
+  Command ManualDrive = new RunCommand(() -> rdrive.getDifferentialDrive().tankDrive(xbox.getRawAxis(5), xbox.getRawAxis(1)));
  
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -67,7 +69,7 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
-
+    ManualDrive.schedule();
   }
 
   /**
@@ -91,6 +93,9 @@ public class RobotContainer {
     new JoystickButton(xbox, Button.kBumperRight.value)
     .whenPressed(() -> arm.pull(), arm)
     .whenReleased(() -> arm.stop(), arm);
+
+    new JoystickButton(xbox, Button.kX.value)
+    .whileHeld(() -> limelight.getTargetDistanceMeasured(cameraToTargetHeight, cameraAngle));
    
   }
 
@@ -106,14 +111,14 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    TrajectoryConfig config = new TrajectoryConfig(
+    final TrajectoryConfig config = new TrajectoryConfig(
       MaxSafeVelocityMeters, MaxSafeAccelerationMeters);
     
-    Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
+    final Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
       Arrays.asList(Chooser.getStartingPose(), new Pose2d(1.0, 0, new Rotation2d()),
         new Pose2d(2.3, 1.2, Rotation2d.fromDegrees(90.0))), config);
       
-      RamseteCommand rbase = new RamseteCommand(
+      final RamseteCommand rbase = new RamseteCommand(
       trajectory, 
       rdrive::getPose, 
       new RamseteController(Ramsete.kb, Ramsete.kzeta), 

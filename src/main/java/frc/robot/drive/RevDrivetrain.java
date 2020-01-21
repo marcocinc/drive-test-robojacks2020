@@ -12,8 +12,10 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
@@ -33,6 +35,8 @@ public class RevDrivetrain extends SubsystemBase {
 
   CANSparkMax LRearWheel = new CANSparkMax(kLeftRearPort, MotorType.kBrushless);
   CANSparkMax RRearWheel = new CANSparkMax(kRightRearPort, MotorType.kBrushless);
+
+  DifferentialDrive roboDrive = new DifferentialDrive(LFrontWheel, RFrontWheel);
 
   AHRS gyro = new AHRS(SPI.Port.kMXP);
 
@@ -67,14 +71,13 @@ public class RevDrivetrain extends SubsystemBase {
       gyro.reset();
   }
 
-  public void tankDrive(double leftOutput, double rightOutput) {
-      LFrontWheel.set(leftOutput);
-      RFrontWheel.set(rightOutput);
-  }
-
   public void setOutputVolts(double leftVolts, double rightVolts) {
       LFrontWheel.setVoltage(leftVolts);
       RFrontWheel.setVoltage(rightVolts);
+  }
+
+  public DifferentialDrive getDifferentialDrive() {
+    return roboDrive;
   }
 
   public Rotation2d getHeading() {

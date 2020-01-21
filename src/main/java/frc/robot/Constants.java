@@ -73,12 +73,17 @@ public final class Constants {
   
   public static final double shooterRPM = 30;
   public static final double shooterError = 20;
+
+  // Field Measurements
+  public static final double cameraToTargetHeight = 0;
+
+  public static final double shooterDistanceFromTargetMeters = 5;
   
   // PID Constants
   public static class leftDrive {
     public static double Kp = 0.1;
-    public static final double Ki = 0;
-    public static final double Kd = 0;
+    public static double Ki = 0;
+    public static double Kd = 0;
   }
 
   public static class rightDrive {
@@ -94,6 +99,18 @@ public final class Constants {
   }
 
   public static class shooterRightPID {
+    public static double Kp = 0.1;
+    public static double Ki = 0;
+    public static double Kd = 0;
+  }
+
+  public static class distanceCorrection {
+    public static double Kp = 0.1;
+    public static double Ki = 0;
+    public static double Kd = 0;
+  }
+
+  public static class angleCorrection {
     public static double Kp = 0.1;
     public static double Ki = 0;
     public static double Kd = 0;
