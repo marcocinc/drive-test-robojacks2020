@@ -87,13 +87,8 @@ public class RobotContainer {
     .whenPressed(() -> shooter.setVelocity(shooterRPM, shooterError))
     .whenReleased(() -> shooter.setVelocity(0, 0));
 
-    new JoystickButton(xbox, Button.kBumperLeft.value)
-    .whenPressed(() -> arm.reach(), arm)
-    .whenReleased(()-> arm.stop(), arm);
-
-    new JoystickButton(xbox, Button.kBumperRight.value)
-    .whenPressed(() -> arm.pull(), arm)
-    .whenReleased(() -> arm.stop(), arm);
+    new JoystickButton(xbox, Button.kY.value)
+    .whenPressed(() -> arm.switchState(), arm);
 
     new JoystickButton(xbox, Button.kX.value)
     .whileHeld(() -> limelight.getTargetDistanceMeasured(cameraToTargetHeight, cameraAngle));
