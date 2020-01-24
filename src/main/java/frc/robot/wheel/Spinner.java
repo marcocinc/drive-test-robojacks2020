@@ -66,15 +66,30 @@ public void spin(){
   if(colorSense.getIsBlue()){
     SpinnerMotor.set(.3);
 
+  private final SenseColor colorSense = new SenseColor();
+
+  private final CANSparkMax SpinnerMotor = new CANSparkMax(kSpinnerPort, MotorType.kBrushless);
+  private final CANPIDController spinController = SpinnerMotor.getPIDController();
+
+
+  public Spinner() {
+    spinController.setP(shooterLeftPID.Kp);
+    spinController.setI(shooterLeftPID.Ki);
+    spinController.setD(shooterLeftPID.Kd); 
+  }
+
+
+  public void measuredSpin(double rotations) {
+    spinController.setReference(rotations, ControlType.kPosition);  
 
   }
 
-}
 
 
-@Override
-public void periodic() {
 
+  @Override
+  public void periodic() {
 
+  }
 }
 }
