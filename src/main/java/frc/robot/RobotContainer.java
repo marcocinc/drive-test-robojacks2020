@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
 import frc.robot.turret.Turret;
 import frc.robot.vision.Limelight;
 import frc.robot.wheel.SenseColor;
+import frc.robot.wheel.Spinner;
 import frc.robot.climber.Arm;
 import frc.robot.drive.RevDrivetrain;
 import frc.robot.shooter.Shooter;
@@ -53,6 +54,8 @@ public class RobotContainer {
   private final Limelight limelight = new Limelight();
 
   private final SenseColor colorSense = new SenseColor();
+
+  private final Spinner spinner = new Spinner();
 
   private final Turret goalMover = new Turret();
 
@@ -90,9 +93,11 @@ public class RobotContainer {
     new JoystickButton(xbox, Button.kY.value)
     .whenPressed(() -> arm.switchState(), arm);
 
-    new JoystickButton(xbox, Button.kX.value)
-    .whileHeld(() -> limelight.getTargetDistanceMeasured(cameraToTargetHeight, cameraAngle));
+   // new JoystickButton(xbox, Button.kX.value)
+    //.whileHeld(() -> limelight.getTargetDistanceMeasured(cameraToTargetHeight, cameraAngle));
    
+    new JoystickButton(xbox, Button.kX.value)
+    .whenPressed(() -> spinner.toSelectedColor(), spinner);
   }
 
   public void periodic() {
