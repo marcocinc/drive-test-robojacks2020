@@ -32,6 +32,10 @@ import static frc.robot.Constants.*;
 
 public class Spinner extends SubsystemBase {
 
+private final I2C.Port i2cPort = I2C.Port.kOnboard;
+private final ColorSensorV3 m_colorSensor = new ColorSensorV3(i2cPort);
+private double IR = m_colorSensor.getIR();
+
 private final SenseColor colorSense = new SenseColor();
 private static final int kCanID = 1;
 private static final MotorType kMotorType = MotorType.kBrushless;
@@ -42,7 +46,7 @@ private CANSparkMax m_motor;
 public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput;
 
 private final CANSparkMax SpinnerMotor = new CANSparkMax(kSpinnerPort, MotorType.kBrushless);
-  private final CANPIDController spinController = SpinnerMotor.getPIDController();
+private final CANPIDController spinController = SpinnerMotor.getPIDController();
 
 
 public Spinner() {
@@ -51,11 +55,19 @@ public Spinner() {
   spinController.setD(shooterLeftPID.Kd); 
 }
 
-
+public double getRawColor() {
+  return IR;
+}
 public void spin(){
 
-  //spinController.setReference(10, ControlMode.Position);  
 
+
+  //spinController.setReference(10, ControlMode.Position);  
+  if(colorSense.getIsBlue()){
+    SpinnerMotor.set(.3);
+
+
+  }
 
 }
 
@@ -64,4 +76,5 @@ public void spin(){
 public void periodic() {
 
 
+}
 }
