@@ -61,7 +61,8 @@ public class RobotContainer {
   private final Shooter shooter = new Shooter();
 
   // Drive with Controller 
-  Command ManualDrive = new RunCommand(() -> rdrive.getDifferentialDrive().tankDrive(xbox.getRawAxis(5), xbox.getRawAxis(1)));
+  Command ManualDrive = new RunCommand(
+    () -> rdrive.getDifferentialDrive().tankDrive(xbox.getRawAxis(5), xbox.getRawAxis(1)), rdrive);
  
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.

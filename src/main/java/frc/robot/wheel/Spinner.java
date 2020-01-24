@@ -32,36 +32,29 @@ import static frc.robot.Constants.*;
 
 public class Spinner extends SubsystemBase {
 
-private final SenseColor colorSense = new SenseColor();
-private static final int kCanID = 1;
-private static final MotorType kMotorType = MotorType.kBrushless;
-private static final AlternateEncoderType kAltEncType = AlternateEncoderType.kQuadrature;
-private static final int kCPR = 8192;
+  private final SenseColor colorSense = new SenseColor();
 
-private CANSparkMax m_motor;
-public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput;
-
-private final CANSparkMax SpinnerMotor = new CANSparkMax(kSpinnerPort, MotorType.kBrushless);
+  private final CANSparkMax SpinnerMotor = new CANSparkMax(kSpinnerPort, MotorType.kBrushless);
   private final CANPIDController spinController = SpinnerMotor.getPIDController();
 
 
-public Spinner() {
-  spinController.setP(shooterLeftPID.Kp);
-  spinController.setI(shooterLeftPID.Ki);
-  spinController.setD(shooterLeftPID.Kd); 
-}
+  public Spinner() {
+    spinController.setP(shooterLeftPID.Kp);
+    spinController.setI(shooterLeftPID.Ki);
+    spinController.setD(shooterLeftPID.Kd); 
+  }
 
 
-public void spin(){
+  public void measuredSpin(double rotations) {
+    spinController.setReference(rotations, ControlType.kPosition);  
 
-  //spinController.setReference(10, ControlMode.Position);  
-
-
-}
+  }
 
 
-@Override
-public void periodic() {
 
 
+  @Override
+  public void periodic() {
+
+  }
 }
