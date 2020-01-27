@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
 import frc.robot.turret.Turret;
+import frc.robot.vision.FollowTarget;
 import frc.robot.vision.Limelight;
 import frc.robot.wheel.SenseColor;
 import frc.robot.wheel.Spinner;
@@ -28,8 +29,10 @@ import frc.robot.drive.RevDrivetrain;
 import frc.robot.shooter.Shooter;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
+import edu.wpi.first.wpilibj2.command.ProxyScheduleCommand;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import static frc.robot.Constants.*;
@@ -66,7 +69,12 @@ public class RobotContainer {
   // Drive with Controller 
   Command ManualDrive = new RunCommand(
     () -> rdrive.getDifferentialDrive().tankDrive(xbox.getRawAxis(5), xbox.getRawAxis(1)), rdrive);
- 
+   Command ShootAndGo = new ProxyScheduleCommand(new FollowTarget()) 
+   .andThen(new WaitCommand(2)) 
+   .andThen(()-> shooter.setVelocity(500, 50))
+   .andThen(()-> rdrive.getDifferentialDrive().tankDrive(0.2, 0.2), rdrive) 
+   .andThen(new WaitCommand(2))
+   .andThen(()-> rdrive.getDifferentialDrive().tankDrive(0, 0), rdrive);
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
