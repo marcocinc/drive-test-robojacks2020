@@ -37,6 +37,18 @@ public class Spinner extends SubsystemBase {
   private final CANSparkMax SpinnerMotor = new CANSparkMax(kSpinnerPort, MotorType.kBrushless);
   private final CANPIDController spinController = SpinnerMotor.getPIDController();
 
+  public enum colorsPosition {
+    YELLOW, RED, BLUE, GREEN ;
+
+
+
+
+  }
+  private colorsPosition state = colorsPosition.YELLOW; 
+ 
+  public colorsPosition getState() {
+    return state;
+  }
 
   public Spinner() {
     spinController.setP(shooterLeftPID.Kp);
@@ -50,8 +62,14 @@ public class Spinner extends SubsystemBase {
 
   }
 
-  public void toSelectedColor(String Color) {
-    
+  public void toSelectedColor() {
+    if (colorSense.getIsBlue()) {
+      SpinnerMotor.set(.3);
+
+
+
+    }
+
   }
 
 
