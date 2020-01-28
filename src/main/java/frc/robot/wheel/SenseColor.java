@@ -49,25 +49,25 @@ public class SenseColor extends SubsystemBase {
   boolean isGreen = getRawColor() >= greenLowerBound && getRawColor() <= greenUpperBound;
 
   public enum Colour {
-    RED(redLowerBound, redUpperBound ,1) {
+    RED(redLowerBound, redUpperBound ,1,'R') {
       public Colour next() {
         return YELLOW;
       }
      
     },
-    YELLOW(yellowLowerBound, yellowUpperBound,2) {
+    YELLOW(yellowLowerBound, yellowUpperBound,2,'Y') {
       public Colour next() {
         return BLUE;
       }
       
     },
-    BLUE(blueLowerBound, blueUpperBound,3) {
+    BLUE(blueLowerBound, blueUpperBound,3,'B') {
       public Colour next() {
         return GREEN;
       }
       
     },
-    GREEN(greenLowerBound, greenUpperBound,4) {
+    GREEN(greenLowerBound, greenUpperBound,4,'G') {
       public Colour next() {
         return YELLOW;
       }
@@ -77,6 +77,7 @@ public class SenseColor extends SubsystemBase {
     private final double upper;
     private final double lower;
     private final int position;
+    private String capital;
 
     public abstract Colour next();
 
@@ -90,7 +91,7 @@ public class SenseColor extends SubsystemBase {
     }
     
     public Colour nextIn(int n){
-      n=n%4;
+      n=this.position+n%4;
 
       if (n == YELLOW.position){return YELLOW;}
 
@@ -100,14 +101,19 @@ public class SenseColor extends SubsystemBase {
 
       else if (n == RED.position){return RED;}
       
-      return null;
+      else {return null;}
     }  
 
 
-    private Colour(final double upperBound, final double lowerBound, final int position) {
+    private Colour(
+    final double upperBound, 
+    final double lowerBound, 
+    final int position, 
+    final String capital ) {
        this.upper = upperBound;
        this.lower = lowerBound;
        this.position = position;
+       this.capital= capital;
     } 
         
   }
