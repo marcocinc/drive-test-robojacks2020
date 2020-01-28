@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.util.Color;
 import com.revrobotics.ColorSensorV3;
 import com.revrobotics.ControlType;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.I2C;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -34,39 +35,39 @@ import static frc.robot.Constants.*;
 public class Spinner extends SubsystemBase {
 
   private final SenseColor colorSense = new SenseColor();
-
+  private final Colour colorSensed = colorSense.getColour();
   private final CANSparkMax SpinnerMotor = new CANSparkMax(kSpinnerPort, MotorType.kBrushless);
   private final CANPIDController spinController = SpinnerMotor.getPIDController();
-
-  public Colour x;
-
+  /*DriverStation.getInstance().getGameSpecificMessage();*/
+ 
 
   public Spinner() {
     spinController.setP(shooterLeftPID.Kp);
     spinController.setI(shooterLeftPID.Ki);
-    spinController.setD(shooterLeftPID.Kd); 
+    spinController.setD(shooterLeftPID.Kd);
+  }
+
+  public void toSelectedColor(String message) {
+    Colour objective = Colour.fromChar(message.charAt(0)).nextIn(2);
+    SpinnerMotor.set(0.1);
+    if ( colorSense.getColorChar() == objective.capital ){
+      SpinnerMotor.set(0);
+    }
+    
   }
 
 
-  public void measuredSpin(double rotations) {
+  public void measuredSpin(final double rotations) {
     spinController.setReference(rotations, ControlType.kPosition);  
 
   }
 
-  public void toSelectedColor() {
-    if (colorSense.getIsBlue()) {
-      SpinnerMotor.set(.3);
+ 
 
-
-
-    }
-
-  }
 
 
   @Override
   public void periodic() {
-
   }
 
 }

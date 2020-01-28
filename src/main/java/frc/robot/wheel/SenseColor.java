@@ -8,6 +8,8 @@
 package frc.robot.wheel;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.wheel.SenseColor.Colour;
+
 import static frc.robot.Constants.*;
 
 import java.text.BreakIterator;
@@ -40,7 +42,8 @@ public class SenseColor extends SubsystemBase {
   private final Color kRedTarget = ColorMatch.makeColor(0.561, 0.232, 0.114);
   private final Color kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113);
 
-  public String colorString;
+   
+
   public ColorMatchResult match = m_colorMatcher.matchClosestColor(detectedColor);
 
   boolean isBlue = getRawColor() >= blueLowerBound && getRawColor() <= blueUpperBound;
@@ -49,6 +52,7 @@ public class SenseColor extends SubsystemBase {
   boolean isGreen = getRawColor() >= greenLowerBound && getRawColor() <= greenUpperBound;
 
   public enum Colour {
+
     RED(redLowerBound, redUpperBound ,1,'R') {
       public Colour next() {
         return YELLOW;
@@ -74,13 +78,15 @@ public class SenseColor extends SubsystemBase {
     };
 
     
+    /**
+     *
+     */
     private final double upper;
     private final double lower;
     private final int position;
     private final char capital;
-
+    
     public abstract Colour next();
-
 
     public double getLower() {
       return lower;
@@ -89,31 +95,55 @@ public class SenseColor extends SubsystemBase {
     public double getUpper() {
       return upper;
     }
+
+    public Colour nextIn(int n) {
+      n = this.position + n % 4;
+
+      if (n == YELLOW.position) {
+        return YELLOW;
+      }
+
+      else if (n == BLUE.position) {
+        return BLUE;
+      }
+
+      else if (n == GREEN.position) {
+        return GREEN;
+      }
+
+      else if (n == RED.position) {
+        return RED;
+      }
+
+      else {
+        return null;
+      }
+    }
     
-    public Colour nextIn(int n){
-      n=this.position+n%4;
+	  }
 
-      if (n == YELLOW.position){return YELLOW;}
+	public static Colour fromChar (final char Ch){
+      switch(Ch){
+        case('B'):
+          return Colour.BLUE;
+        case('Y'):
+          return Colour.YELLOW;
+        case('G'):
+          return Colour.GREEN;
+        case('R'):
+          return Colour.RED;
+        default:
+          return null;
+      }
 
-      else if (n == BLUE.position){return BLUE;}
+    }
 
-      else if (n == GREEN.position){return GREEN;}
+    private Colour(final double upperBound, final double lowerBound, final int position, final char capital) {
+      this.upper = upperBound;
+      this.lower = lowerBound;
+      this.position = position;
+      this.capital = capital;
 
-      else if (n == RED.position){return RED;}
-      
-      else {return null;}
-    }  
-
-
-    private Colour(
-    final double upperBound, 
-    final double lowerBound, 
-    final int position, 
-    final char capital ) {
-       this.upper = upperBound;
-       this.lower = lowerBound;
-       this.position = position;
-       this.capital= capital;
     } 
         
   }
@@ -188,23 +218,42 @@ public class SenseColor extends SubsystemBase {
   public String getColorString() {
     
     if (getIsBlue()) {
-      return  colorString = "Blue";
+      return  "Blue";
 
     } else if (getIsRed()) {
-      return colorString = "Red";
+      return "Red";
 
     } else if (getIsGreen()) {
-      return colorString = "Green";
+      return "Green";
 
     } else if (getIsYellow()) {
-      return colorString = "Yellow";
+      return "Yellow";
 
     } else {
-      return colorString = "Error: Unknown";
+      return null;
 
     }
   }
 
+  public char getColorChar() {
+    
+    if (getIsBlue()) {
+      return  Colour.BLUE.capital;
+
+    } else if (getIsRed()) {
+      return Colour.RED.capital;
+
+    } else if (getIsGreen()) {
+      return Colour.GREEN.capital;
+
+    } else if (getIsYellow()) {
+      return Colour.YELLOW.capital;
+
+    } else {
+      return (Character) null;
+
+    }
+  }
   
 
   @Override
