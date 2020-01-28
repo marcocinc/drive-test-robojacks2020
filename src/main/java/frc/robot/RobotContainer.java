@@ -67,14 +67,29 @@ public class RobotContainer {
   private final Shooter shooter = new Shooter();
 
   // Drive with Controller 
-  Command manualDrive = new RunCommand(
+  private Command manualDrive = new RunCommand(
     () -> rDrive.getDifferentialDrive().tankDrive(xbox.getRawAxis(5), xbox.getRawAxis(1)), rDrive);
-   Command shootAndGo = new ProxyScheduleCommand(new FollowTarget()) 
-   .andThen(new WaitCommand(2)) 
-   .andThen(()-> shooter.setVelocity(500, 50))
-   .andThen(()-> rDrive.getDifferentialDrive().tankDrive(0.2, 0.2), rDrive) 
-   .andThen(new WaitCommand(2))
-   .andThen(()-> rDrive.getDifferentialDrive().tankDrive(0, 0), rDrive);
+  
+  // Autonomous
+  private Command shootThenGo = new FollowTarget() 
+    .andThen(new WaitCommand(2)) 
+    .andThen(()-> shooter.setVelocity(500, 50))
+    .andThen(()-> rDrive.getDifferentialDrive().tankDrive(0.2, 0.2), rDrive) 
+    .andThen(new WaitCommand(2))
+    .andThen(()-> rDrive.getDifferentialDrive().tankDrive(0, 0), rDrive);
+  
+  private RamseteCommand rbase = new RamseteCommand(
+    getMovingTrajectory(), 
+    rDrive::getPose, 
+    new RamseteController(Ramsete.kb, Ramsete.kzeta), 
+    rDrive.getFeedforward(), 
+    rDrive.getKinematics(), 
+    rDrive::getSpeeds, 
+    rDrive.getLeftDrivePID(), 
+    rDrive.getRightDrivePID(), 
+    rDrive::setOutputVolts, 
+    rDrive);
+
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
@@ -101,8 +116,8 @@ public class RobotContainer {
     new JoystickButton(xbox, Button.kY.value)
     .whenPressed(() -> arm.switchState(), arm);
 
-   // new JoystickButton(xbox, Button.kX.value)
-    //.whileHeld(() -> limelight.getTargetDistanceMeasured(cameraToTargetHeight, cameraAngle));
+    new JoystickButton(xbox, Button.kX.value)
+    .whileHeld(new FollowTarget());
    
     new JoystickButton(xbox, Button.kX.value)
     .whenPressed(() -> spinner.toSelectedColor(), spinner);
@@ -114,31 +129,21 @@ public class RobotContainer {
     SmartDashboard.putString("Detected Color", colorSense.getColorString());
   }
 
+  private Trajectory getMovingTrajectory() {
+    Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
+      Arrays.asList(Update.getStartingPose(), new Pose2d(1.0, 0, new Rotation2d()),
+        new Pose2d(2.3, 1.2, Rotation2d.fromDegrees(90.0))), 
+        new TrajectoryConfig(MaxSafeVelocityMeters, MaxSafeAccelerationMeters));
+    
+    return trajectory;
+  }
+
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    final TrajectoryConfig config = new TrajectoryConfig(
-      MaxSafeVelocityMeters, MaxSafeAccelerationMeters);
-    
-    final Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
-      Arrays.asList(Update.getStartingPose(), new Pose2d(1.0, 0, new Rotation2d()),
-        new Pose2d(2.3, 1.2, Rotation2d.fromDegrees(90.0))), config);
-      
-      final RamseteCommand rbase = new RamseteCommand(
-      trajectory, 
-      rDrive::getPose, 
-      new RamseteController(Ramsete.kb, Ramsete.kzeta), 
-      rDrive.getFeedforward(), 
-      rDrive.getKinematics(), 
-      rDrive::getSpeeds, 
-      rDrive.getLeftDrivePID(), 
-      rDrive.getRightDrivePID(), 
-      rDrive::setOutputVolts, 
-      rDrive);
-    
-    return rbase.andThen(() -> rDrive.setOutputVolts(0, 0));
+    return shootThenGo.andThen(() -> rDrive.setOutputVolts(0, 0));
   }
 }
