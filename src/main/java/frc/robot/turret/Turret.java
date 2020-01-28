@@ -14,14 +14,14 @@ import static frc.robot.Constants.*;
 public class Turret extends SubsystemBase {
   Solenoid piston = new Solenoid(leftPistonPort);
 
-  public enum ShooterState {
+  public enum shooterState {
     COLLECTING, SHOOTING;
   }
 
   // Keeps track of how high the shooter is
-  private ShooterState state = ShooterState.SHOOTING;
+  private shooterState state = shooterState.SHOOTING;
 
-  public ShooterState getState() {
+  public shooterState getState() {
     return state;
   }
 
@@ -43,13 +43,13 @@ public class Turret extends SubsystemBase {
   }
 
   public void collectGoal(){
-    state = ShooterState.COLLECTING;
+    state = shooterState.COLLECTING;
 
     piston.set(false);
   }
 
   public void shootGoal(){
-    state = ShooterState.SHOOTING;
+    state = shooterState.SHOOTING;
     
     piston.set(true);
   }

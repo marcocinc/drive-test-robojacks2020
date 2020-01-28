@@ -125,7 +125,7 @@ public final class Constants {
   }
 
   // Feed Forward Constants
-  public static class DriveFeedforward {
+  public static class driveFeedforward {
     public static final double ks = 0;
     public static final double kv = 0;
     public static final double ka = 0;
