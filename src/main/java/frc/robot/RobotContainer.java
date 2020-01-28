@@ -20,15 +20,19 @@ import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
 import frc.robot.turret.Turret;
+import frc.robot.vision.FollowTarget;
 import frc.robot.vision.Limelight;
 import frc.robot.wheel.SenseColor;
+import frc.robot.wheel.Spinner;
 import frc.robot.climber.Arm;
 import frc.robot.drive.RevDrivetrain;
 import frc.robot.shooter.Shooter;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
+import edu.wpi.first.wpilibj2.command.ProxyScheduleCommand;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import static frc.robot.Constants.*;
@@ -54,6 +58,8 @@ public class RobotContainer {
 
   private final SenseColor colorSense = new SenseColor();
 
+  private final Spinner spinner = new Spinner();
+
   private final Turret goalMover = new Turret();
 
   private final Arm arm = new Arm();
@@ -61,8 +67,14 @@ public class RobotContainer {
   private final Shooter shooter = new Shooter();
 
   // Drive with Controller 
-  Command ManualDrive = new RunCommand(() -> rdrive.getDifferentialDrive().tankDrive(xbox.getRawAxis(5), xbox.getRawAxis(1)));
- 
+  Command ManualDrive = new RunCommand(
+    () -> rdrive.getDifferentialDrive().tankDrive(xbox.getRawAxis(5), xbox.getRawAxis(1)), rdrive);
+   Command ShootAndGo = new ProxyScheduleCommand(new FollowTarget()) 
+   .andThen(new WaitCommand(2)) 
+   .andThen(()-> shooter.setVelocity(500, 50))
+   .andThen(()-> rdrive.getDifferentialDrive().tankDrive(0.2, 0.2), rdrive) 
+   .andThen(new WaitCommand(2))
+   .andThen(()-> rdrive.getDifferentialDrive().tankDrive(0, 0), rdrive);
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
@@ -86,17 +98,14 @@ public class RobotContainer {
     .whenPressed(() -> shooter.setVelocity(shooterRPM, shooterError))
     .whenReleased(() -> shooter.setVelocity(0, 0));
 
-    new JoystickButton(xbox, Button.kBumperLeft.value)
-    .whenPressed(() -> arm.reach(), arm)
-    .whenReleased(()-> arm.stop(), arm);
+    new JoystickButton(xbox, Button.kY.value)
+    .whenPressed(() -> arm.switchState(), arm);
 
-    new JoystickButton(xbox, Button.kBumperRight.value)
-    .whenPressed(() -> arm.pull(), arm)
-    .whenReleased(() -> arm.stop(), arm);
-
-    new JoystickButton(xbox, Button.kX.value)
-    .whileHeld(() -> limelight.getTargetDistanceMeasured(cameraToTargetHeight, cameraAngle));
+   // new JoystickButton(xbox, Button.kX.value)
+    //.whileHeld(() -> limelight.getTargetDistanceMeasured(cameraToTargetHeight, cameraAngle));
    
+    new JoystickButton(xbox, Button.kX.value)
+    .whenPressed(() -> spinner.toSelectedColor(), spinner);
   }
 
   public void periodic() {

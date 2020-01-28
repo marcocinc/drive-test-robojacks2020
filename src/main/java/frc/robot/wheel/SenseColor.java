@@ -9,15 +9,21 @@ package frc.robot.wheel;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import static frc.robot.Constants.*;
+
+import java.text.BreakIterator;
+
+import javax.swing.text.Position;
+
 import edu.wpi.first.wpilibj.I2C;
 import com.revrobotics.ColorSensorV3;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.util.Color; 
+import edu.wpi.first.wpilibj.util.Color;
 
 import com.revrobotics.ColorMatchResult;
 import com.revrobotics.ColorMatch;
+
 public class SenseColor extends SubsystemBase {
   /**
    * Creates a new SenseColor.
@@ -33,26 +39,95 @@ public class SenseColor extends SubsystemBase {
   private final Color kGreenTarget = ColorMatch.makeColor(0.197, 0.561, 0.240);
   private final Color kRedTarget = ColorMatch.makeColor(0.561, 0.232, 0.114);
   private final Color kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113);
- 
+
   public String colorString;
   public ColorMatchResult match = m_colorMatcher.matchClosestColor(detectedColor);
 
-
   boolean isBlue = getRawColor() >= blueLowerBound && getRawColor() <= blueUpperBound;
-  boolean isRed = getRawColor() >= redLowerBound && getRawColor() <= redUpperBound; 
-  boolean isYellow = getRawColor() >= yellowLowerBound && getRawColor() <= yellowUpperBound; 
-  boolean isGreen = getRawColor() >= greenLowerBound && getRawColor() <= yellowUpperBound; 
+  boolean isRed = getRawColor() >= redLowerBound && getRawColor() <= redUpperBound;
+  boolean isYellow = getRawColor() >= yellowLowerBound && getRawColor() <= yellowUpperBound;
+  boolean isGreen = getRawColor() >= greenLowerBound && getRawColor() <= greenUpperBound;
 
- 
+  public enum Colour {
+    RED(redLowerBound, redUpperBound ,1,'R') {
+      public Colour next() {
+        return YELLOW;
+      }
+     
+    },
+    YELLOW(yellowLowerBound, yellowUpperBound,2,'Y') {
+      public Colour next() {
+        return BLUE;
+      }
+      
+    },
+    BLUE(blueLowerBound, blueUpperBound,3,'B') {
+      public Colour next() {
+        return GREEN;
+      }
+      
+    },
+    GREEN(greenLowerBound, greenUpperBound,4,'G') {
+      public Colour next() {
+        return YELLOW;
+      }
+    };
+
+    
+    private final double upper;
+    private final double lower;
+    private final int position;
+    private String capital;
+
+    public abstract Colour next();
+
+
+    public double getLower() {
+      return lower;
+    }
+
+    public double getUpper() {
+      return upper;
+    }
+    
+    public Colour nextIn(int n){
+      n=this.position+n%4;
+
+      if (n == YELLOW.position){return YELLOW;}
+
+      else if (n == BLUE.position){return BLUE;}
+
+      else if (n == GREEN.position){return GREEN;}
+
+      else if (n == RED.position){return RED;}
+      
+      else {return null;}
+    }  
+
+
+    private Colour(
+    final double upperBound, 
+    final double lowerBound, 
+    final int position, 
+    final String capital ) {
+       this.upper = upperBound;
+       this.lower = lowerBound;
+       this.position = position;
+       this.capital= capital;
+    } 
+        
+  }
+
+
   public boolean getIsBlue(){
-    isBlue = getRawColor() >= blueLowerBound && getRawColor() <= blueUpperBound;
+    isBlue = getRawColor() >= Colour.BLUE.lower && getRawColor() <= Colour.BLUE.upper;
 
     return isBlue; 
   }
 
  public boolean getIsRed(){
 
-  isRed = getRawColor() >= redLowerBound && getRawColor() <= redUpperBound; 
+  isRed = getRawColor() >= Colour.RED.lower && getRawColor() <= Colour.RED.upper; 
 
   return isRed; 
 
@@ -60,7 +135,7 @@ public class SenseColor extends SubsystemBase {
 
  public boolean getIsYellow(){
 
-  isYellow = getRawColor() >= yellowLowerBound && getRawColor() <= yellowUpperBound; 
+  isYellow = getRawColor() >= Colour.YELLOW.lower && getRawColor() <= Colour.YELLOW.upper; 
 
   return isYellow; 
 
@@ -68,7 +143,7 @@ public class SenseColor extends SubsystemBase {
 
  public boolean getIsGreen(){
 
-  isGreen = getRawColor() >= greenLowerBound && getRawColor() <= yellowUpperBound; 
+  isGreen = getRawColor() >= Colour.GREEN.lower && getRawColor() <= Colour.GREEN.upper; 
 
   return isGreen; 
 
@@ -87,18 +162,41 @@ public class SenseColor extends SubsystemBase {
     return proximity;
   }
 
+  public Colour getColour(){
+    if (getIsBlue()) {
+      return  Colour.BLUE;
+
+    } else if (getIsRed()) {
+      return Colour.RED;
+
+    } else if (getIsGreen()) {
+      return Colour.GREEN;
+
+    } else if (getIsYellow()) {
+      return Colour.YELLOW;
+
+    } else {
+      return null;
+
+    }
+
+  }
+
+
+
+
   public String getColorString() {
     
-    if (getRawColor() >= blueLowerBound && getRawColor() <= blueUpperBound) {
+    if (getIsBlue()) {
       return  colorString = "Blue";
 
-    } else if (getRawColor() >= redLowerBound && getRawColor() <= redUpperBound) {
+    } else if (getIsRed()) {
       return colorString = "Red";
 
-    } else if (getRawColor() >= greenLowerBound && getRawColor() <= greenUpperBound) {
+    } else if (getIsGreen()) {
       return colorString = "Green";
 
-    } else if (getRawColor() >= yellowLowerBound && getRawColor() <= yellowUpperBound) {
+    } else if (getIsYellow()) {
       return colorString = "Yellow";
 
     } else {

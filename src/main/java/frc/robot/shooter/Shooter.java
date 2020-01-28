@@ -8,9 +8,9 @@
 package frc.robot.shooter;
 
 import com.revrobotics.CANEncoder;
-import com.revrobotics.CANPIDController;
+//import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.ControlType;
+//import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -21,8 +21,8 @@ public class Shooter extends SubsystemBase {
   private CANSparkMax leftLauncher = new CANSparkMax(kLeftShooterWheelPort, MotorType.kBrushless);
   private CANSparkMax rightLauncher = new CANSparkMax(kRightShooterWheelPort, MotorType.kBrushless);
 
-  private CANPIDController leftController = new CANPIDController(leftLauncher);
-  private CANPIDController rightController = new CANPIDController(rightLauncher);
+  //private CANPIDController leftController = new CANPIDController(leftLauncher);
+  //private CANPIDController rightController = new CANPIDController(rightLauncher);
 
   private CANEncoder leftEncoder = leftLauncher.getEncoder();
   private CANEncoder rightEncoder = rightLauncher.getEncoder();
@@ -34,21 +34,21 @@ public class Shooter extends SubsystemBase {
    * Creates a new Shooter.
    */
   public Shooter() {
-    leftController.setP(shooterLeftPID.Kp);
-    leftController.setI(shooterLeftPID.Ki);
-    leftController.setD(shooterLeftPID.Kd);    
+    //leftController.setP(shooterLeftPID.Kp);
+    //leftController.setI(shooterLeftPID.Ki);
+    //leftController.setD(shooterLeftPID.Kd);    
 
-    rightController.setP(shooterRightPID.Kp);
-    rightController.setI(shooterRightPID.Ki);
-    rightController.setD(shooterRightPID.Kd);
+    //rightController.setP(shooterRightPID.Kp);
+    //rightController.setI(shooterRightPID.Ki);
+    //rightController.setD(shooterRightPID.Kd);
   }
 
   public void setVelocity(double rpm, double allowedError) {
     setpoint = rpm;
     error = allowedError;
 
-    leftController.setReference(rpm, ControlType.kVelocity);
-    rightController.setReference(-rpm, ControlType.kVelocity);
+    //leftController.setReference(rpm, ControlType.kVelocity);
+    //rightController.setReference(-rpm, ControlType.kVelocity);
   }
 
   /**

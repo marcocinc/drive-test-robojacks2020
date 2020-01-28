@@ -27,7 +27,9 @@ public final class Constants {
 
   public static final int kControllerPort = 0;
 
-  public static final int kSpinnerPort = 7; 
+  public static final int kSpinnerPort = 8; 
+
+  public static final int compressorModule = 20;
 
   public static final int leftPistonPort = 0;
 	public static final int rightPistonPort = 1; 
