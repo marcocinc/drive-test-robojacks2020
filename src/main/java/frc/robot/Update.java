@@ -11,14 +11,14 @@ import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
+import static frc.robot.Constants.*;
 /**
  * Mainly for logging values that need adjustment
  */
-public class Chooser {
+public class Update {
 
     // PID Controller Gains
-    
+    private double p = angleCorrection.Kp;
 
     // Starting positions
     private final Pose2d left = new Pose2d(-1, 0, Rotation2d.fromDegrees(0));
@@ -27,12 +27,14 @@ public class Chooser {
 
     private static final SendableChooser choosePosition = new SendableChooser<>();
 
-    public Chooser() {
+    public Update() {
         choosePosition.setDefaultOption("Center", center);
         choosePosition.addOption("Left", left);
         choosePosition.addOption("Right", right);
         SmartDashboard.putData("Starting Position", choosePosition);
+        SmartDashboard.putNumber("P value(aim)", angleCorrection.Kp);
 
+        
 
     }
 
@@ -42,7 +44,9 @@ public class Chooser {
     }
 
   public void logContinuous() {
-
+    if ()  {
+    SmartDashboard.getNumber("P value(aim)", angleCorrection.Kp);
+     }
   }
 
 }
