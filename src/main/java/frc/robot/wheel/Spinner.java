@@ -35,8 +35,8 @@ public class Spinner extends SubsystemBase {
 
   private final SenseColor colorSense = new SenseColor();
 
-  private final CANSparkMax SpinnerMotor = new CANSparkMax(kSpinnerPort, MotorType.kBrushless);
-  private final CANPIDController spinController = SpinnerMotor.getPIDController();
+  private final CANSparkMax spinnerMotor = new CANSparkMax(kSpinnerPort, MotorType.kBrushless);
+  private final CANPIDController spinController = spinnerMotor.getPIDController();
 
   public Colour x;
 
@@ -55,7 +55,7 @@ public class Spinner extends SubsystemBase {
 
   public void toSelectedColor() {
     if (colorSense.getIsBlue()) {
-      SpinnerMotor.set(.3);
+      spinnerMotor.set(.3);
 
 
 

@@ -51,7 +51,7 @@ public class RobotContainer {
   XboxController xbox = new XboxController(Constants.kControllerPort);
   
   // Drive Subsystem
-  private final RevDrivetrain rdrive = new RevDrivetrain();
+  private final RevDrivetrain rDrive = new RevDrivetrain();
 
   // Limelight Subsystem
   private final Limelight limelight = new Limelight();
@@ -67,21 +67,21 @@ public class RobotContainer {
   private final Shooter shooter = new Shooter();
 
   // Drive with Controller 
-  Command ManualDrive = new RunCommand(
-    () -> rdrive.getDifferentialDrive().tankDrive(xbox.getRawAxis(5), xbox.getRawAxis(1)), rdrive);
-   Command ShootAndGo = new ProxyScheduleCommand(new FollowTarget()) 
+  Command manualDrive = new RunCommand(
+    () -> rDrive.getDifferentialDrive().tankDrive(xbox.getRawAxis(5), xbox.getRawAxis(1)), rDrive);
+   Command shootAndGo = new ProxyScheduleCommand(new FollowTarget()) 
    .andThen(new WaitCommand(2)) 
    .andThen(()-> shooter.setVelocity(500, 50))
-   .andThen(()-> rdrive.getDifferentialDrive().tankDrive(0.2, 0.2), rdrive) 
+   .andThen(()-> rDrive.getDifferentialDrive().tankDrive(0.2, 0.2), rDrive) 
    .andThen(new WaitCommand(2))
-   .andThen(()-> rdrive.getDifferentialDrive().tankDrive(0, 0), rdrive);
+   .andThen(()-> rDrive.getDifferentialDrive().tankDrive(0, 0), rDrive);
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
-    ManualDrive.schedule();
+    manualDrive.schedule();
   }
 
   /**
@@ -129,16 +129,16 @@ public class RobotContainer {
       
       final RamseteCommand rbase = new RamseteCommand(
       trajectory, 
-      rdrive::getPose, 
+      rDrive::getPose, 
       new RamseteController(Ramsete.kb, Ramsete.kzeta), 
-      rdrive.getFeedforward(), 
-      rdrive.getKinematics(), 
-      rdrive::getSpeeds, 
-      rdrive.getLeftDrivePID(), 
-      rdrive.getRightDrivePID(), 
-      rdrive::setOutputVolts, 
-      rdrive);
+      rDrive.getFeedforward(), 
+      rDrive.getKinematics(), 
+      rDrive::getSpeeds, 
+      rDrive.getLeftDrivePID(), 
+      rDrive.getRightDrivePID(), 
+      rDrive::setOutputVolts, 
+      rDrive);
     
-    return rbase.andThen(() -> rdrive.setOutputVolts(0, 0));
+    return rbase.andThen(() -> rDrive.setOutputVolts(0, 0));
   }
 }

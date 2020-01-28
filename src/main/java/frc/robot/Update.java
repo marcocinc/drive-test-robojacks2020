@@ -34,9 +34,6 @@ public class Update {
         choosePosition.addOption("Right", right);
         SmartDashboard.putData("Starting Position", choosePosition);
         SmartDashboard.putNumber("P value(aim)", angleCorrection.Kp);
-
-        
-
     }
 
     public static Pose2d getStartingPose() {
