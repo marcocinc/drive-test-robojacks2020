@@ -56,8 +56,8 @@ public final class Constants {
   public static final double cameraAngle = 0;
   
   // Color Value Bounds
-	public static final double blueLowerBound = 105;
-  public static final double blueUpperBound = 118;
+	public static final double blueLowerBound = 106;
+  public static final double blueUpperBound = 115;
 
   public static final double redLowerBound = 65;
   public static final double redUpperBound = 81;
@@ -65,8 +65,8 @@ public final class Constants {
   public static final double greenLowerBound = 46;
   public static final double greenUpperBound = 60;
 
-  public static final double yellowLowerBound = 96;
-  public static final double yellowUpperBound = 105;
+  public static final double yellowLowerBound = 91;
+  public static final double yellowUpperBound = 98;
   
   // Constant Speeds
   public static final double armPercentSpeed = 0.4;
