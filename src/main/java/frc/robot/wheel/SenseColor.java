@@ -77,7 +77,7 @@ public class SenseColor extends SubsystemBase {
     private final double upper;
     private final double lower;
     private final int position;
-    private String capital;
+    private final char capital;
 
     public abstract Colour next();
 
@@ -109,7 +109,7 @@ public class SenseColor extends SubsystemBase {
     final double upperBound, 
     final double lowerBound, 
     final int position, 
-    final String capital ) {
+    final char capital ) {
        this.upper = upperBound;
        this.lower = lowerBound;
        this.position = position;
