@@ -19,7 +19,8 @@ public class Update {
 
     // PID Controller Gains
     private double p = angleCorrection.Kp;
-
+    private double i = angleCorrection.Ki;
+    private double d = angleCorrection.Kd;
     // Starting positions
     private final Pose2d left = new Pose2d(-1, 0, Rotation2d.fromDegrees(0));
     private final Pose2d center = new Pose2d(0, 0, Rotation2d.fromDegrees(0));
@@ -44,9 +45,15 @@ public class Update {
     }
 
   public void logContinuous() {
-    if ()  {
-    SmartDashboard.getNumber("P value(aim)", angleCorrection.Kp);
+    if ( p != SmartDashboard.getNumber("P value(aim)", angleCorrection.Kp))  {
+      p = SmartDashboard.getNumber("P value(aim)", angleCorrection.Kp);
      }
+    if ( i != SmartDashboard.getNumber("I value(aim)", angleCorrection.Ki))  {
+      i = SmartDashboard.getNumber("I value(aim)", angleCorrection.Ki);
+     }
+    if ( d != SmartDashboard.getNumber("D value(aim)", angleCorrection.Kd))  {
+      d = SmartDashboard.getNumber("D value(aim)", angleCorrection.Kd);
+     } 
   }
 
 }
