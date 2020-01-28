@@ -50,7 +50,7 @@ public class Spinner extends SubsystemBase {
   public void toSelectedColor(String message) {
     Colour objective = Colour.fromChar(message.charAt(0)).nextIn(2);
     SpinnerMotor.set(0.1);
-    if ( colorSense.getColorChar() == objective.capital ){
+    if ( colorSense.getColorChar() == objective.getCapital() ){
       SpinnerMotor.set(0);
     }
     

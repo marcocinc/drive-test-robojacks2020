@@ -54,28 +54,16 @@ public class SenseColor extends SubsystemBase {
   public enum Colour {
 
     RED(redLowerBound, redUpperBound ,1,'R') {
-      public Colour next() {
-        return YELLOW;
-      }
-     
-    },
+      public Colour next() {return YELLOW;}},
+
     YELLOW(yellowLowerBound, yellowUpperBound,2,'Y') {
-      public Colour next() {
-        return BLUE;
-      }
-      
-    },
+      public Colour next() {return BLUE;}},
+
     BLUE(blueLowerBound, blueUpperBound,3,'B') {
-      public Colour next() {
-        return GREEN;
-      }
-      
-    },
+      public Colour next() {return GREEN;}},
+
     GREEN(greenLowerBound, greenUpperBound,4,'G') {
-      public Colour next() {
-        return YELLOW;
-      }
-    };
+      public Colour next() {return YELLOW;}};
 
     
     /**
@@ -87,6 +75,10 @@ public class SenseColor extends SubsystemBase {
     private final char capital;
     
     public abstract Colour next();
+
+    public char getCapital(){
+      return capital;
+    }
 
     public double getLower() {
       return lower;
@@ -120,7 +112,7 @@ public class SenseColor extends SubsystemBase {
       }
     }
     
-	  }
+	  
 
 	public static Colour fromChar (final char Ch){
       switch(Ch){
@@ -137,7 +129,7 @@ public class SenseColor extends SubsystemBase {
       }
 
     }
-
+  
     private Colour(final double upperBound, final double lowerBound, final int position, final char capital) {
       this.upper = upperBound;
       this.lower = lowerBound;
@@ -145,8 +137,7 @@ public class SenseColor extends SubsystemBase {
       this.capital = capital;
 
     } 
-        
-  }
+  }   
 
 
   public boolean getIsBlue(){
