@@ -19,21 +19,21 @@ import static frc.robot.Constants.*;
 public class Arm extends SubsystemBase {
   private Solenoid arm = new Solenoid(compressorModule, armPort);
 
-  public enum ArmState {
+  public enum armState {
     REACH, PULL;
   }
 
   // Keeps track of how high the shooter is
-  private ArmState state = ArmState.PULL;
+  private armState state = armState.PULL;
 
   public void reach(){
     arm.set(true);
-    state = ArmState.REACH;
+    state = armState.REACH;
   }
 
   public void pull(){
     arm.set(false);
-    state = ArmState.PULL;
+    state = armState.PULL;
   }
 
   public void switchState() {
