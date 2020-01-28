@@ -8,6 +8,7 @@
 package frc.robot.wheel;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.wheel.SenseColor.*;
 
 import com.revrobotics.ColorMatchResult;
 import com.revrobotics.ColorMatch;
@@ -37,6 +38,7 @@ public class Spinner extends SubsystemBase {
   private final CANSparkMax SpinnerMotor = new CANSparkMax(kSpinnerPort, MotorType.kBrushless);
   private final CANPIDController spinController = SpinnerMotor.getPIDController();
 
+  public Colour x;
 
 
   public Spinner() {
