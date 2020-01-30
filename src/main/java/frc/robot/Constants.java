@@ -20,9 +20,9 @@ import edu.wpi.first.wpilibj.util.Units;
 public final class Constants {
 
   // Port Numbers
-	public static final int kLeftFrontPort = 1;
-	public static final int kRightFrontPort = 2;
-	public static final int kLeftRearPort = 3;
+	public static final int kLeftFrontPort = 0;
+	public static final int kRightFrontPort = 1;
+	public static final int kLeftRearPort = 2;
   public static final int kRightRearPort = 4;
 
   public static final int kControllerPort = 0;
@@ -38,6 +38,9 @@ public final class Constants {
 
   public static final int kLeftShooterWheelPort = 5;
   public static final int kRightShooterWheelPort = 6;
+
+  public static final int kConveyorBelt = 9;
+
     
   // Motor Phase
   public static final boolean kLeftInverted = false;

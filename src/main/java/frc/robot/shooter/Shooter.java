@@ -21,6 +21,8 @@ public class Shooter extends SubsystemBase {
   private CANSparkMax leftLauncher = new CANSparkMax(kLeftShooterWheelPort, MotorType.kBrushless);
   private CANSparkMax rightLauncher = new CANSparkMax(kRightShooterWheelPort, MotorType.kBrushless);
 
+  private CANSparkMax conveyor = new CANSparkMax(kConveyorBelt, MotorType.kBrushless);
+
   private CANPIDController leftController = new CANPIDController(leftLauncher);
   private CANPIDController rightController = new CANPIDController(rightLauncher);
 
@@ -46,6 +48,7 @@ public class Shooter extends SubsystemBase {
   public void setVoltage(double volts){
     leftLauncher.setVoltage(volts);
     rightLauncher.setVoltage(volts);
+    conveyor.setVoltage(volts);
   }
   
   public void setVelocity(double rpm, double allowedError) {
