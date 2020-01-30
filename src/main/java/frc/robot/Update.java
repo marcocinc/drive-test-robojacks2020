@@ -18,9 +18,13 @@ import static frc.robot.Constants.*;
 public class Update {
 
     // PID Controller Gains
-    private double p = angleCorrection.Kp;
-    private double i = angleCorrection.Ki;
-    private double d = angleCorrection.Kd;
+    private double aP = angleCorrection.Kp;
+    private double aI = angleCorrection.Ki;
+    private double aD = angleCorrection.Kd;
+
+    private double dP = distanceCorrection.Kp;
+    private double dI = distanceCorrection.Ki;
+    private double dD = distanceCorrection.Kd;
     // Starting positions
     private final Pose2d left = new Pose2d(-1, 0, Rotation2d.fromDegrees(0));
     private final Pose2d center = new Pose2d(0, 0, Rotation2d.fromDegrees(0));
@@ -33,9 +37,16 @@ public class Update {
         choosePosition.addOption("Left", left);
         choosePosition.addOption("Right", right);
         SmartDashboard.putData("Starting Position", choosePosition);
-        SmartDashboard.putNumber("P value(aim)", angleCorrection.Kp);
-        SmartDashboard.putNumber("I value(aim)", angleCorrection.Ki);
-        SmartDashboard.putNumber("D value(aim)", angleCorrection.Kd);
+
+        //display PID values (angle)
+        SmartDashboard.putNumber("P value(angle)", angleCorrection.Kp);
+        SmartDashboard.putNumber("I value(angle)", angleCorrection.Ki);
+        SmartDashboard.putNumber("D value(angle)", angleCorrection.Kd);
+
+        //display PID values (distance)
+        SmartDashboard.putNumber("P value(distance)", distanceCorrection.Kp);
+        SmartDashboard.putNumber("I value(distance)", distanceCorrection.Ki);
+        SmartDashboard.putNumber("D value(distance)", distanceCorrection.Kd);
     }
 
     public static Pose2d getStartingPose() {
@@ -44,14 +55,26 @@ public class Update {
     }
 
   public void logContinuous() {
-    if ( p != SmartDashboard.getNumber("P value(aim)", angleCorrection.Kp))  {
-      p = SmartDashboard.getNumber("P value(aim)", angleCorrection.Kp);
+    //change PID values for angle
+    if ( aP != SmartDashboard.getNumber("P value(angle)", angleCorrection.Kp))  {
+      aP = SmartDashboard.getNumber("P value(angle)", angleCorrection.Kp);
      }
-    if ( i != SmartDashboard.getNumber("I value(aim)", angleCorrection.Ki))  {
-      i = SmartDashboard.getNumber("I value(aim)", angleCorrection.Ki);
+    if ( aI != SmartDashboard.getNumber("I value(angle)", angleCorrection.Ki))  {
+      aI = SmartDashboard.getNumber("I value(angle)", angleCorrection.Ki);
      }
-    if ( d != SmartDashboard.getNumber("D value(aim)", angleCorrection.Kd))  {
-      d = SmartDashboard.getNumber("D value(aim)", angleCorrection.Kd);
+    if ( aD != SmartDashboard.getNumber("D value(angle)", angleCorrection.Kd))  {
+      aD = SmartDashboard.getNumber("D value(angle)", angleCorrection.Kd);
+     } 
+
+    //change PID values for distance
+    if ( dP != SmartDashboard.getNumber("P value(distance)", distanceCorrection.Kp))  {
+      dP = SmartDashboard.getNumber("P value(distance)", distanceCorrection.Kp);
+     }
+    if ( dI != SmartDashboard.getNumber("I value(distance)", distanceCorrection.Ki))  {
+      dI = SmartDashboard.getNumber("I value(distance)", distanceCorrection.Ki);
+     }
+    if ( dD != SmartDashboard.getNumber("D value(distance)", distanceCorrection.Kd))  {
+      dD = SmartDashboard.getNumber("D value(distance)", distanceCorrection.Kd);
      } 
   }
 
