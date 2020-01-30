@@ -8,6 +8,7 @@
 package frc.robot.wheel;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.angleCorrection.spinnerWheel;
 import frc.robot.wheel.SenseColor.*;
 
 import com.revrobotics.ColorMatchResult;
@@ -42,9 +43,9 @@ public class Spinner extends SubsystemBase {
  
 
   public Spinner() {
-    spinController.setP(shooterLeftPID.Kp);
-    spinController.setI(shooterLeftPID.Ki);
-    spinController.setD(shooterLeftPID.Kd);
+    spinController.setP(spinnerWheel.Kp);
+    spinController.setI(spinnerWheel.Ki);
+    spinController.setD(spinnerWheel.Kd);
   }
 
   public void toSelectedColor(String message) {
@@ -62,9 +63,17 @@ public class Spinner extends SubsystemBase {
 
   }
 
+  public void toSelectedRotation_Color(int nSpin){
+    
+    
+
+  
+  }
  
 
+  public void toSelectedRotation_Ratio(int nSpin){
 
+  }
 
   @Override
   public void periodic() {
