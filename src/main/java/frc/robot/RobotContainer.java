@@ -126,9 +126,13 @@ public class RobotContainer {
 
     new JoystickButton(xbox, Button.kX.value)
     .whileHeld(new FollowTarget());
-   
+   /*
     new JoystickButton(xbox, Button.kX.value)
     .whenPressed(() -> spinner.toSelectedColor(DriverStation.getInstance().getGameSpecificMessage()), spinner);
+
+  */
+  new JoystickButton(xbox, Button.kX.value)
+    .whenPressed(() -> spinner.toSelectedColor("Y"), spinner);
   }
 
   public void periodic() {
