@@ -38,6 +38,9 @@ public final class Constants {
 
   public static final int kLeftShooterWheelPort = 5;
   public static final int kRightShooterWheelPort = 6;
+
+  public static final int kConveyorBelt = 9;
+
     
   // Motor Phase
   public static final boolean kLeftInverted = false;
