@@ -50,7 +50,10 @@ import java.util.Arrays;
 public class RobotContainer {
   // Drive Controller
   XboxController xbox = new XboxController(Constants.kControllerPort);
-  
+
+    //Update PID values
+    Update update = new Update();
+
   // Drive Subsystem
   private final RevDrivetrain rDrive = new RevDrivetrain();
 
@@ -125,6 +128,7 @@ public class RobotContainer {
   }
 
   public void periodic() {
+    update.logContinuous();
     SmartDashboard.putNumber("Raw Color Value", colorSense.getRawColor());
     SmartDashboard.putNumber("Proximity", colorSense.getProximity());
     SmartDashboard.putString("Detected Color", colorSense.getColorString());
