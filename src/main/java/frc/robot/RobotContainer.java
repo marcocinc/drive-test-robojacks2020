@@ -114,8 +114,12 @@ public class RobotContainer {
     .whenPressed(() -> goalMover.swapHeight(), goalMover);
 
     new JoystickButton(xbox, Button.kB.value)
-    .whenPressed(() -> shooter.setVelocity(shooterRPM, shooterError))
-    .whenReleased(() -> shooter.setVelocity(0, 0));
+    .whenPressed(() -> shooter.setVoltage(shooterVolts))
+    .whenReleased(() -> shooter.setVoltage(0));
+
+    new JoystickButton(xbox, Button.kBumperLeft.value)
+    .whenPressed(() -> shooter.setVoltage(-shooterVolts))
+    .whenReleased(() -> shooter.setVoltage(0));
 
     new JoystickButton(xbox, Button.kY.value)
     .whenPressed(() -> arm.switchState(), arm);
@@ -133,7 +137,7 @@ public class RobotContainer {
     SmartDashboard.putNumber("Proximity", colorSense.getProximity());
     SmartDashboard.putString("Detected Color", colorSense.getColorString());
   }
-
+-
   private Trajectory getMovingTrajectory() {
     Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
       Arrays.asList(Update.getStartingPose(), new Pose2d(1.0, 0, new Rotation2d()),

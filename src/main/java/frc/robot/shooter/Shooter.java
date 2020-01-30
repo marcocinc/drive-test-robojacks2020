@@ -47,7 +47,7 @@ public class Shooter extends SubsystemBase {
     leftLauncher.setVoltage(volts);
     rightLauncher.setVoltage(volts);
   }
-
+  
   public void setVelocity(double rpm, double allowedError) {
     setpoint = rpm;
     error = allowedError;

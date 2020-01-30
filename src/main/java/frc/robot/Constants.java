@@ -72,7 +72,7 @@ public final class Constants {
   
   // Constant Speeds
   public static final double armPercentSpeed = 0.4;
-  
+  public static final double shooterVolts = 5; 
   public static final double shooterRPM = 30;
   public static final double shooterError = 20;
 
