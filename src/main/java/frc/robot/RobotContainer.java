@@ -122,7 +122,7 @@ public class RobotContainer {
     .whenReleased(() -> shooter.setVoltage(0));
 
     new JoystickButton(xbox, Button.kY.value)
-    .whenPressed(() -> arm.switchState(), arm);
+    .whenPressed(() -> arm.switchArm(), arm);
 
     new JoystickButton(xbox, Button.kX.value)
     .whileHeld(new FollowTarget());

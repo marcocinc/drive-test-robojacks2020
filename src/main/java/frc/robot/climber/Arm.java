@@ -7,36 +7,39 @@
 
 package frc.robot.climber;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.revrobotics.CANDigitalInput.LimitSwitch;
 
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import static frc.robot.Constants.*;
 
 
 
 public class Arm extends SubsystemBase {
-  private Solenoid arm = new Solenoid(compressorModule, armPort);
+  private TalonSRX arm = new TalonSRX(0);
 
   public enum armState {
-    REACH, PULL;
+    REACH, PULL ;
   }
 
   // Keeps track of how high the shooter is
   private armState state = armState.PULL;
 
   public void reach(){
-    arm.set(true);
+    arm.set(ControlMode.PercentOutput,armReachSpeed);
     state = armState.REACH;
   }
 
   public void pull(){
-    arm.set(false);
+    arm.set(ControlMode.PercentOutput, armPullSpeed);
     state = armState.PULL;
   }
 
-  public void switchState() {
+  public void switchArm() {
     switch(state) {
       case PULL:
         reach();
