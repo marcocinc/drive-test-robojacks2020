@@ -137,7 +137,7 @@ public class RobotContainer {
     SmartDashboard.putNumber("Proximity", colorSense.getProximity());
     SmartDashboard.putString("Detected Color", colorSense.getColorString());
   }
--
+
   private Trajectory getMovingTrajectory() {
     Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
       Arrays.asList(Update.getStartingPose(), new Pose2d(1.0, 0, new Rotation2d()),
