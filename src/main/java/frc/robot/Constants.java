@@ -76,6 +76,9 @@ public final class Constants {
   public static final double shooterRPM = 30;
   public static final double shooterError = 20;
 
+  public static final double armReachSpeed = 0.1;
+  public static final double armPullSpeed = -0.1;
+  
   // Field Measurements
   public static final double cameraToTargetHeight = 0;
 
