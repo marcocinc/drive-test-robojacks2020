@@ -20,14 +20,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
-import frc.robot.turret.Turret;
-import frc.robot.vision.FollowTarget;
-import frc.robot.vision.Limelight;
-import frc.robot.wheel.SenseColor;
-import frc.robot.wheel.Spinner;
-import frc.robot.climber.Arm;
 import frc.robot.drive.RevDrivetrain;
-import frc.robot.shooter.Shooter;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import edu.wpi.first.wpilibj2.command.ProxyScheduleCommand;
@@ -57,43 +50,11 @@ public class RobotContainer {
   // Drive Subsystem
   private final RevDrivetrain rDrive = new RevDrivetrain();
 
-  // Limelight Subsystem
-  private final Limelight limelight = new Limelight();
 
-  private final SenseColor colorSense = new SenseColor();
-
-  private final Spinner spinner = new Spinner();
-
-  private final Turret goalMover = new Turret();
-
-  private final Arm arm = new Arm();
-
-  private final Shooter shooter = new Shooter();
-
-  // Drive with Controller 
-  private Command manualDrive = new RunCommand(
+  private final Command manualDrive = new RunCommand(
     () -> rDrive.getDifferentialDrive().tankDrive(xbox.getRawAxis(5), xbox.getRawAxis(1)), rDrive);
   
   // Autonomous
-  private Command shootThenGo = new FollowTarget() 
-    .andThen(new WaitCommand(2)) 
-    .andThen(()-> shooter.setVelocity(500, 50))
-    .andThen(()-> rDrive.getDifferentialDrive().tankDrive(0.2, 0.2), rDrive) 
-    .andThen(new WaitCommand(2))
-    .andThen(()-> rDrive.getDifferentialDrive().tankDrive(0, 0), rDrive);
-  
-  private RamseteCommand rbase = new RamseteCommand(
-    getMovingTrajectory(), 
-    rDrive::getPose, 
-    new RamseteController(Ramsete.kb, Ramsete.kzeta), 
-    rDrive.getFeedforward(), 
-    rDrive.getKinematics(), 
-    rDrive::getSpeeds, 
-    rDrive.getLeftDrivePID(), 
-    rDrive.getRightDrivePID(), 
-    rDrive::setOutputVolts, 
-    rDrive);
-
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
@@ -110,53 +71,7 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    new JoystickButton(xbox, Button.kA.value)
-    .whenPressed(() -> goalMover.swapHeight(), goalMover);
-
-    new JoystickButton(xbox, Button.kB.value)
-    .whenPressed(() -> shooter.setVoltage(shooterVolts))
-    .whenReleased(() -> shooter.setVoltage(0));
-
-    new JoystickButton(xbox, Button.kBumperLeft.value)
-    .whenPressed(() -> shooter.setVoltage(-shooterVolts))
-    .whenReleased(() -> shooter.setVoltage(0));
-
-    new JoystickButton(xbox, Button.kY.value)
-    .whenPressed(() -> arm.switchArm(), arm);
-
-    new JoystickButton(xbox, Button.kX.value)
-    .whileHeld(new FollowTarget());
-   /*
-    new JoystickButton(xbox, Button.kX.value)
-    .whenPressed(() -> spinner.toSelectedColor(DriverStation.getInstance().getGameSpecificMessage()), spinner);
-
-  */
-  new JoystickButton(xbox, Button.kX.value)
-    .whenPressed(() -> spinner.toSelectedColor("Y"), spinner);
+   
   }
 
-  public void periodic() {
-    update.logContinuous();
-    SmartDashboard.putNumber("Raw Color Value", colorSense.getRawColor());
-    SmartDashboard.putNumber("Proximity", colorSense.getProximity());
-    SmartDashboard.putString("Detected Color", colorSense.getColorString());
-  }
-
-  private Trajectory getMovingTrajectory() {
-    Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
-      Arrays.asList(Update.getStartingPose(), new Pose2d(1.0, 0, new Rotation2d()),
-        new Pose2d(2.3, 1.2, Rotation2d.fromDegrees(90.0))), 
-        new TrajectoryConfig(MaxSafeVelocityMeters, MaxSafeAccelerationMeters));
-    
-    return trajectory;
-  }
-
-  /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
-   * @return the command to run in autonomous
-   */
-  public Command getAutonomousCommand() {
-    return shootThenGo.andThen(() -> rDrive.setOutputVolts(0, 0));
-  }
 }
